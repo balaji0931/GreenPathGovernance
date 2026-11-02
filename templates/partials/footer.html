@@ -1,0 +1,62 @@
+<footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="space-y-4 md:col-span-2">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white">
+                        <i data-lucide="leaf" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-white">
+                        Green<span class="text-emerald-500">Path</span>
+                    </span>
+                </div>
+                <p class="text-sm leading-relaxed max-w-md text-slate-400">
+                    Smart Village Waste Governance Platform for Gram Panchayats. Bringing digital accountability to door-to-door solid waste collection, segregation monitoring, and ward coverage.
+                </p>
+                <div class="flex items-center space-x-3 text-xs text-slate-500">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md bg-slate-800 text-emerald-400 font-mono">
+                        Session 2026-27
+                    </span>
+                    <span>INT253 Django Web Development</span>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-200 mb-4">Platform</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="{% url 'landing' %}" class="hover:text-emerald-400 transition-colors">Home & Overview</a></li>
+                    <li><a href="{% url 'segregation_guide' %}" class="hover:text-emerald-400 transition-colors">Segregation Guide</a></li>
+                    <li><a href="{% url 'login' %}" class="hover:text-emerald-400 transition-colors">Staff / Resident Portal</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-200 mb-4">Four Governance Roles</h4>
+                <ul class="space-y-1.5 text-xs text-slate-400">
+                    <li class="flex items-center space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                        <span>Super Admin (Panchayat Setup)</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span>Village Manager (Households & Reports)</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                        <span>Waste Collector (Doorstep QR Validation)</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>Household (QR & Collection History)</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pt-8 border-t border-slate-800 text-center md:flex md:justify-between text-xs text-slate-500">
+            <p>&copy; 2026-27 GreenPath Waste Governance System. All rights reserved.</p>
+            <p class="mt-2 md:mt-0">Built with Django Monolithic Architecture & Neon PostgreSQL.</p>
+        </div>
+    </div>
+</footer>
+

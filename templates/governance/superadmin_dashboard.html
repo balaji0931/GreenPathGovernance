@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block title %}Super Admin Governance HQ | GreenPath{% endblock %}
+
+{% block content %}
+<div class="bg-slate-900 text-white py-8 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="space-y-1">
+                <div class="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-purple-400 bg-purple-950/80 px-2.5 py-1 rounded-md border border-purple-800">
+                    <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+                    <span>Super Admin Apex Governance</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">System-Wide Governance HQ</h1>
+                <p class="text-xs text-slate-400">Panchayat onboarding, ward subdivisions, and manager credentialing.</p>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <a href="{% url 'village_create' %}" class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-md transition-all">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                    <span>Register Village</span>
+                </a>
+                <a href="{% url 'manager_create' %}" class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs shadow-md transition-all">
+                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                    <span>Appoint Manager</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- KPI Metric Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Total Panchayats</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-slate-900">{{ total_villages }}</span>
+                <span class="text-xs text-slate-400">Registered</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+            <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block">Active Panchayats</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-emerald-700">{{ active_villages }}</span>
+                <span class="text-xs text-emerald-600 font-medium">Operational</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Total Wards</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-slate-900">{{ total_wards }}</span>
+                <span class="text-xs text-slate-400">Subdivisions</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+            <span class="text-xs font-bold text-purple-600 uppercase tracking-wider block">Village Managers</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-purple-700">{{ total_managers }}</span>
+                <span class="text-xs text-purple-600 font-medium">Appointed</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Villages Register -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-4">
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div>
+                <h3 class="text-base font-bold text-slate-900">Gram Panchayats & Villages</h3>
+                <p class="text-xs text-slate-500">All registered governance jurisdictions</p>
+            </div>
+            <a href="{% url 'village_create' %}" class="text-xs font-bold text-emerald-600 hover:text-emerald-700">
+                + New Village
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200 text-[11px]">
+                    <tr>
+                        <th class="px-6 py-3">Code</th>
+                        <th class="px-6 py-3">Village Name</th>
+                        <th class="px-6 py-3">District / State</th>
+                        <th class="px-6 py-3 text-center">Wards</th>
+                        <th class="px-6 py-3">Assigned Manager</th>
+                        <th class="px-6 py-3 text-center">Status</th>
+                        <th class="px-6 py-3 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for village in villages %}
+                    <tr class="hover:bg-slate-50/70 transition-colors">
+                        <td class="px-6 py-3.5 font-mono font-bold text-slate-900">
+                            {{ village.code }}
+                        </td>
+                        <td class="px-6 py-3.5 font-semibold text-slate-900">
+                            {{ village.name }}
+                        </td>
+                        <td class="px-6 py-3.5">
+                            {{ village.district|default:"-" }}, {{ village.state }}
+                        </td>
+                        <td class="px-6 py-3.5 text-center">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">
+                                {{ village.total_wards_count }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-3.5">
+                            {% with mgr=village.primary_manager %}
+                                {% if mgr %}
+                                    <span class="font-medium text-slate-800">{{ mgr.user.get_full_name|default:mgr.user.username }}</span>
+                                    <span class="text-[10px] text-slate-400 block font-mono">@{{ mgr.user.username }}</span>
+                                {% else %}
+                                    <span class="text-rose-500 font-medium italic text-[11px]">Unassigned</span>
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+                        <td class="px-6 py-3.5 text-center">
+                            {% if village.is_active %}
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                    Active
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">
+                                    Inactive
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-3.5 text-right space-x-2">
+                            <a href="{% url 'village_detail' village.id %}" class="inline-flex items-center space-x-1 font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                                <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                                <span>Wards</span>
+                            </a>
+                            <form method="POST" action="{% url 'village_toggle_status' village.id %}" class="inline">
+                                {% csrf_token %}
+                                <button type="submit" class="text-[11px] font-semibold text-slate-500 hover:text-rose-600 px-2 py-1 rounded-lg border border-slate-200 hover:border-rose-200">
+                                    {% if village.is_active %}Deactivate{% else %}Activate{% endif %}
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-slate-400 italic">
+                            No Gram Panchayats registered yet. Click "Register Village" to create the first jurisdiction.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Village Managers Register -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-4">
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div>
+                <h3 class="text-base font-bold text-slate-900">Appointed Village Managers</h3>
+                <p class="text-xs text-slate-500">Authorized personnel managing village registers and collectors (FR-12)</p>
+            </div>
+            <a href="{% url 'manager_create' %}" class="text-xs font-bold text-purple-600 hover:text-purple-700">
+                + Appoint Manager
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200 text-[11px]">
+                    <tr>
+                        <th class="px-6 py-3">Username</th>
+                        <th class="px-6 py-3">Full Name</th>
+                        <th class="px-6 py-3">Assigned Village</th>
+                        <th class="px-6 py-3">Contact</th>
+                        <th class="px-6 py-3 text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for mgr in managers %}
+                    <tr class="hover:bg-slate-50/70 transition-colors">
+                        <td class="px-6 py-3.5 font-mono font-bold text-purple-700">
+                            @{{ mgr.user.username }}
+                        </td>
+                        <td class="px-6 py-3.5 font-semibold text-slate-900">
+                            {{ mgr.user.get_full_name|default:"-" }}
+                        </td>
+                        <td class="px-6 py-3.5 font-medium text-slate-800">
+                            {% if mgr.village %}
+                                {{ mgr.village.name }} <span class="text-[10px] font-mono text-slate-400">({{ mgr.village.code }})</span>
+                            {% else %}
+                                <span class="text-rose-500 italic">No Village Assigned</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-3.5 text-slate-500">
+                            {{ mgr.phone_number|default:"-" }}
+                            {% if mgr.user.email %}<span class="block text-[10px] text-slate-400">{{ mgr.user.email }}</span>{% endif %}
+                        </td>
+                        <td class="px-6 py-3.5 text-center">
+                            {% if mgr.user.is_active %}
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                    Active
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800">
+                                    Suspended
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-8 text-center text-slate-400 italic">
+                            No managers appointed yet. Click "Appoint Manager" to provision the first manager account.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ village.name }} | Manager Portal | GreenPath{% endblock %}
+
+{% block content %}
+<!-- Manager Header Banner -->
+<div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white py-8 border-b border-emerald-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="space-y-1">
+                <div class="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-emerald-300 bg-emerald-950/70 px-2.5 py-1 rounded-md border border-emerald-700">
+                    <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+                    <span>Gram Panchayat Administration</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{{ village.name }}</h1>
+                <p class="text-xs text-emerald-200">
+                    Jurisdiction Code: <span class="font-mono font-bold">{{ village.code }}</span> &bull; Manager: {{ user.get_full_name|default:user.username }}
+                </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+                <a href="{% url 'household_create' %}" class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-900 font-bold text-xs shadow-md transition-all active:scale-95">
+                    <i data-lucide="user-plus" class="w-4 h-4 text-emerald-700"></i>
+                    <span>Register Household</span>
+                </a>
+                <a href="{% url 'collector_manage' %}" class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs border border-emerald-600 shadow-sm transition-all">
+                    <i data-lucide="truck" class="w-4 h-4"></i>
+                    <span>Manage Collectors</span>
+                </a>
+                <a href="{% url 'household_qr_batch' %}" class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-teal-800 hover:bg-teal-700 text-white font-bold text-xs border border-teal-600 shadow-sm transition-all">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                    <span>Print QR Cards</span>
+                </a>
+                <a href="{% url 'manager_reports' %}" class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-xs shadow-md transition-all active:scale-95">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-slate-900"></i>
+                    <span>Daily Analytics</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- KPI Summary Tiles -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Registered Households</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-slate-900">{{ total_households }}</span>
+                <span class="text-xs text-emerald-600 font-semibold">{{ active_households }} Active</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Active Wards</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-slate-900">{{ wards.count }}</span>
+                <span class="text-xs text-slate-400">Subdivisions</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Waste Collectors</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-slate-900">{{ total_collectors }}</span>
+                <span class="text-xs text-amber-600 font-semibold">{{ active_collectors }} On-Field</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+            <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block">Doorstep Readiness</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-emerald-700">100%</span>
+                <span class="text-xs text-emerald-600 font-semibold">QR Tagged</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manager Workspace Navigation Bar -->
+    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+            <a href="{% url 'household_list' %}" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs transition-colors">
+                <i data-lucide="users" class="w-4 h-4 text-emerald-600"></i>
+                <span>Household Register ({{ total_households }})</span>
+            </a>
+            <a href="{% url 'collector_manage' %}" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs transition-colors">
+                <i data-lucide="scan" class="w-4 h-4 text-amber-600"></i>
+                <span>Waste Collectors ({{ total_collectors }})</span>
+            </a>
+            <a href="{% url 'household_qr_batch' %}" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs transition-colors">
+                <i data-lucide="qr-code" class="w-4 h-4 text-teal-600"></i>
+                <span>Batch QR Generator</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Recent Registrations Table -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-4">
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div>
+                <h3 class="text-base font-bold text-slate-900">Recent Household Registrations</h3>
+                <p class="text-xs text-slate-500">Newly assigned QR identifiers in {{ village.name }}</p>
+            </div>
+            <a href="{% url 'household_list' %}" class="text-xs font-bold text-emerald-600 hover:text-emerald-700">
+                View All Households &rarr;
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200 text-[11px]">
+                    <tr>
+                        <th class="px-6 py-3">Household UID</th>
+                        <th class="px-6 py-3">Resident Head</th>
+                        <th class="px-6 py-3">House / Plot</th>
+                        <th class="px-6 py-3">Ward</th>
+                        <th class="px-6 py-3">Contact</th>
+                        <th class="px-6 py-3 text-center">Status</th>
+                        <th class="px-6 py-3 text-right">QR Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for h in recent_households %}
+                    <tr class="hover:bg-slate-50/70 transition-colors">
+                        <td class="px-6 py-3.5 font-mono font-bold text-emerald-800">
+                            {{ h.uid }}
+                        </td>
+                        <td class="px-6 py-3.5 font-semibold text-slate-900">
+                            {{ h.head_name }}
+                        </td>
+                        <td class="px-6 py-3.5 font-medium text-slate-800">
+                            #{{ h.house_number }}
+                        </td>
+                        <td class="px-6 py-3.5">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700">
+                                {{ h.ward.ward_number }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-3.5 text-slate-500">
+                            {{ h.phone_number|default:"-" }}
+                        </td>
+                        <td class="px-6 py-3.5 text-center">
+                            {% if h.is_active %}
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                    Active
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">
+                                    Inactive
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-3.5 text-right space-x-2">
+                            <a href="{% url 'household_qr_card' h.id %}" target="_blank" class="inline-flex items-center space-x-1 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition-colors">
+                                <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
+                                <span>QR Card</span>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-slate-400 italic">
+                            No households registered yet. Click "Register Household" to add the first family record.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+

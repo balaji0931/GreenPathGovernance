@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block title %}Daily Waste Collection Analytics | {{ village.name }} | GreenPath{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white py-8 border-b border-emerald-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="space-y-1">
+                <div class="flex items-center space-x-2 text-xs text-emerald-300">
+                    <a href="{% url 'manager_dashboard' %}" class="hover:text-white">Manager Hub</a>
+                    <span>/</span>
+                    <span class="text-white font-semibold">Governance Analytics</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Daily Collection & Segregation Audit</h1>
+                <p class="text-xs text-emerald-200">
+                    Jurisdiction: <span class="font-bold">{{ village.name }} ({{ village.code }})</span> &bull; Ward-level coverage metrics
+                </p>
+            </div>
+
+            <!-- Date Selector Filter (FR-39) -->
+            <form method="GET" class="flex items-center space-x-2 bg-white/10 backdrop-blur-md p-1.5 rounded-2xl border border-white/20">
+                <input type="date" name="date" value="{{ selected_date }}"
+                    class="px-3 py-1.5 rounded-xl bg-white text-slate-800 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                <button type="submit" class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-sm">
+                    Filter Date
+                </button>
+                {% if selected_date != today_str %}
+                <a href="{% url 'manager_reports' %}" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold" title="Show Today">
+                    Today
+                </a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- KPI Summary Row (FR-40 to FR-44) -->
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        
+        <!-- Total Active Households (FR-40) -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Total Active</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-slate-900">{{ report.total_active_households }}</span>
+                <span class="text-xs text-slate-400">Households</span>
+            </div>
+            <span class="text-[10px] text-slate-400 block">Village Registry Baseline</span>
+        </div>
+
+        <!-- Collected Today (FR-41) -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+            <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider block">Collected Visits</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-emerald-700">{{ report.collected_count }}</span>
+                <span class="text-xs text-emerald-600 font-semibold">Done</span>
+            </div>
+            <span class="text-[10px] text-emerald-600 block">Unique Households Counted</span>
+        </div>
+
+        <!-- Missed / Uncollected (FR-42) -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+            <span class="text-xs font-bold text-rose-600 uppercase tracking-wider block">Missed / Uncollected</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-rose-700">{{ report.missed_count }}</span>
+                <span class="text-xs text-rose-600 font-semibold">Pending</span>
+            </div>
+            <span class="text-[10px] text-slate-400 block">Explicit Missed + Not Recorded</span>
+        </div>
+
+        <!-- Collection Coverage Percentage (FR-43) -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+            <span class="text-xs font-bold text-teal-600 uppercase tracking-wider block">Collection Coverage</span>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-black text-teal-700">{{ report.collection_percentage }}%</span>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden mt-1">
+                <div class="bg-teal-600 h-2 rounded-full" style="width: {{ report.collection_percentage }}%"></div>
+            </div>
+        </div>
+
+        <!-- Average Segregation Rating (FR-44) -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1 col-span-2 lg:col-span-1">
+            <span class="text-xs font-bold text-amber-500 uppercase tracking-wider block">Segregation Index</span>
+            <div class="flex items-baseline space-x-2">
+                {% if report.average_segregation_rating %}
+                    <span class="text-3xl font-black text-amber-500">{{ report.average_segregation_rating }}</span>
+                    <span class="text-amber-400 text-sm">★ / 5</span>
+                {% else %}
+                    <span class="text-xl font-bold text-slate-400">N/A</span>
+                {% endif %}
+            </div>
+            <span class="text-[10px] text-slate-400 block">From {{ report.rating_count }} Audited Visit{{ report.rating_count|pluralize }}</span>
+        </div>
+
+    </div>
+
+    <!-- Ward-Wise Breakdown Table (FR-45) -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-4">
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+            <div>
+                <h3 class="text-base font-bold text-slate-900">Ward-Wise Performance Breakdown</h3>
+                <p class="text-xs text-slate-500">Comparative coverage and segregation rating across all village subdivisions for {{ report.target_date|date:"d M Y" }}</p>
+            </div>
+            <button onclick="window.print()" class="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-slate-200">
+                <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                <span>Print Report</span>
+            </button>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200 text-[11px]">
+                    <tr>
+                        <th class="px-6 py-3">Ward Identifier</th>
+                        <th class="px-6 py-3">Landmark / Name</th>
+                        <th class="px-6 py-3 text-center">Total Households</th>
+                        <th class="px-6 py-3 text-center">Collected</th>
+                        <th class="px-6 py-3 text-center">Missed / Uncollected</th>
+                        <th class="px-6 py-3">Coverage %</th>
+                        <th class="px-6 py-3 text-center">Avg Rating</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for w in report.ward_breakdown %}
+                    <tr class="hover:bg-slate-50/70 transition-colors">
+                        <td class="px-6 py-3.5 font-bold text-slate-900">
+                            {{ w.ward_number }}
+                        </td>
+                        <td class="px-6 py-3.5 font-medium text-slate-700">
+                            {{ w.ward_name|default:"-" }}
+                        </td>
+                        <td class="px-6 py-3.5 text-center font-semibold text-slate-900">
+                            {{ w.total_households }}
+                        </td>
+                        <td class="px-6 py-3.5 text-center font-bold text-emerald-700">
+                            {{ w.collected }}
+                        </td>
+                        <td class="px-6 py-3.5 text-center font-bold text-rose-700">
+                            {{ w.missed_uncollected }}
+                        </td>
+                        <td class="px-6 py-3.5">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold text-slate-800 w-10">{{ w.collection_percentage }}%</span>
+                                <div class="w-24 bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-emerald-600 h-1.5 rounded-full" style="width: {{ w.collection_percentage }}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-3.5 text-center">
+                            {% if w.average_rating %}
+                                <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                                    <span>{{ w.average_rating }}</span>
+                                    <i data-lucide="star" class="w-3 h-3 fill-amber-400 text-amber-400"></i>
+                                </span>
+                            {% else %}
+                                <span class="text-slate-400 text-[11px] italic">No Rating</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-slate-400 italic">
+                            No wards configured for this village.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+

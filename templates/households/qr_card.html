@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Household QR Card | {{ household.uid }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; padding: 0 !important; }
+            .card-container { box-shadow: none !important; border: 2px solid #047857 !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col items-center justify-center p-4 antialiased">
+
+    <!-- Top Action Bar (hidden on print) -->
+    <div class="no-print w-full max-w-md flex items-center justify-between mb-4">
+        <a href="javascript:history.back()" class="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span>Return</span>
+        </a>
+        <button onclick="window.print()" class="inline-flex items-center space-x-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-1.5 rounded-lg shadow-md transition-all">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+            <span>Print QR Card</span>
+        </button>
+    </div>
+
+    <!-- Official Doorstep QR Identification Card (FR-24, FR-25, FR-26) -->
+    <div class="card-container w-full max-w-sm bg-white rounded-3xl border-2 border-emerald-600 shadow-xl overflow-hidden p-6 space-y-5 text-center relative">
+        
+        <!-- Header Brand & Gram Panchayat -->
+        <div class="border-b-2 border-emerald-100 pb-3 space-y-1">
+            <div class="flex items-center justify-center space-x-2">
+                <div class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center">
+                    <i data-lucide="leaf" class="w-4 h-4"></i>
+                </div>
+                <span class="text-base font-extrabold text-slate-900 tracking-tight">GreenPath</span>
+            </div>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-800">
+                {{ village.name }}
+            </h2>
+            <p class="text-[10px] text-slate-400 font-medium">Gram Panchayat Solid Waste Governance</p>
+        </div>
+
+        <!-- QR Code Image Render -->
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 inline-block mx-auto shadow-inner">
+            {% if household.qr_code_image %}
+                <img src="{{ household.qr_code_image.url }}" alt="Doorstep QR Code" class="w-48 h-48 mx-auto object-contain">
+            {% else %}
+                <div class="w-48 h-48 flex items-center justify-center text-rose-500 text-xs">
+                    QR Image Pending
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Household Identification Details -->
+        <div class="space-y-1 text-left bg-emerald-50/60 p-3.5 rounded-xl border border-emerald-100 text-xs">
+            <div class="flex justify-between items-baseline">
+                <span class="text-slate-500 font-semibold text-[11px]">Household UID:</span>
+                <span class="font-mono font-bold text-emerald-900">{{ household.uid }}</span>
+            </div>
+            <div class="flex justify-between items-baseline">
+                <span class="text-slate-500 font-semibold text-[11px]">House / Plot #:</span>
+                <span class="font-bold text-slate-900">#{{ household.house_number }}</span>
+            </div>
+            <div class="flex justify-between items-baseline">
+                <span class="text-slate-500 font-semibold text-[11px]">Resident Head:</span>
+                <span class="font-bold text-slate-900">{{ household.head_name }}</span>
+            </div>
+            <div class="flex justify-between items-baseline">
+                <span class="text-slate-500 font-semibold text-[11px]">Ward Subdivision:</span>
+                <span class="font-semibold text-emerald-800">{{ household.ward.ward_number }}</span>
+            </div>
+        </div>
+
+        <!-- Doorstep Mounting Instructions -->
+        <div class="pt-1 text-[10px] text-slate-400 leading-tight">
+            Mount this card near the doorstep or front gate.<br>
+            Collector scans this code daily to record segregation.
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
+

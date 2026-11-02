@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}Waste Segregation Guide | GreenPath{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-b from-emerald-50/50 to-white border-b border-slate-200 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <span class="inline-flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100/70 px-3 py-1 rounded-md mb-4">
+                <i data-lucide="book-marked" class="w-4 h-4"></i>
+                <span>Educational Advisory</span>
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                Household Solid Waste Segregation Guide
+            </h1>
+            <p class="mt-3 text-base text-slate-600 leading-relaxed">
+                Segregating waste at source is the most critical pillar of Swachh Gram Panchayat operations. Under GreenPath governance, every household is audited on a 1-to-5 star scale based on source segregation.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+
+    <!-- 3 Streams Category Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Wet Waste (Green) -->
+        <div class="bg-white rounded-2xl border-2 border-emerald-300 p-6 shadow-sm space-y-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                    <i data-lucide="apple" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-bold text-emerald-600 tracking-wider">Stream 1 (Green Bin)</span>
+                    <h3 class="text-xl font-bold text-slate-900">Wet / Organic Waste</h3>
+                </div>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Biodegradable organic matter converted into agricultural compost or biogas at village composting beds.
+            </p>
+            <div class="space-y-2 pt-2 border-t border-slate-100 text-xs">
+                <div class="font-bold text-slate-800">Allowed Items:</div>
+                <ul class="space-y-1 text-slate-600 list-disc list-inside">
+                    <li>Vegetable and fruit peels</li>
+                    <li>Leftover cooked food & tea grounds</li>
+                    <li>Garden dry leaves and twigs</li>
+                    <li>Egg shells and floral waste</li>
+                </ul>
+            </div>
+            <div class="p-3 bg-emerald-50 rounded-xl text-[11px] text-emerald-900 font-medium">
+                💡 <strong>Tip:</strong> Keep wet waste without plastic liners. Liquid should be drained before disposal.
+            </div>
+        </div>
+
+        <!-- Dry Waste (Blue) -->
+        <div class="bg-white rounded-2xl border-2 border-blue-300 p-6 shadow-sm space-y-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
+                    <i data-lucide="package" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-bold text-blue-600 tracking-wider">Stream 2 (Blue Bin)</span>
+                    <h3 class="text-xl font-bold text-slate-900">Dry / Recyclables</h3>
+                </div>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Non-biodegradable recyclable items routed to Material Recovery Facilities (MRF) or licensed recycling units.
+            </p>
+            <div class="space-y-2 pt-2 border-t border-slate-100 text-xs">
+                <div class="font-bold text-slate-800">Allowed Items:</div>
+                <ul class="space-y-1 text-slate-600 list-disc list-inside">
+                    <li>Cardboard boxes & paper</li>
+                    <li>Milk pouches & clean plastic containers</li>
+                    <li>Metal cans & bottle caps</li>
+                    <li>Glass bottles (unbroken)</li>
+                </ul>
+            </div>
+            <div class="p-3 bg-blue-50 rounded-xl text-[11px] text-blue-900 font-medium">
+                💡 <strong>Tip:</strong> Rinse plastic pouches with a splash of water so food residue does not attract pests.
+            </div>
+        </div>
+
+        <!-- Sanitary / Hazardous (Red) -->
+        <div class="bg-white rounded-2xl border-2 border-rose-300 p-6 shadow-sm space-y-4 hover:shadow-md transition-shadow">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center font-bold">
+                    <i data-lucide="alert-octagon" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-xs uppercase font-bold text-rose-600 tracking-wider">Stream 3 (Red / Marked Bag)</span>
+                    <h3 class="text-xl font-bold text-slate-900">Sanitary & Hazardous</h3>
+                </div>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Infectious or toxic materials requiring specialized sanitary incineration or deep burial according to norms.
+            </p>
+            <div class="space-y-2 pt-2 border-t border-slate-100 text-xs">
+                <div class="font-bold text-slate-800">Allowed Items:</div>
+                <ul class="space-y-1 text-slate-600 list-disc list-inside">
+                    <li>Sanitary pads & diapers</li>
+                    <li>Used bandages & cotton swabs</li>
+                    <li>Expired medicines & ointment tubes</li>
+                    <li>Pesticide containers & chemical sprays</li>
+                </ul>
+            </div>
+            <div class="p-3 bg-rose-50 rounded-xl text-[11px] text-rose-900 font-medium">
+                ⚠️ <strong>Safety:</strong> Always wrap diapers and sanitary pads in newspaper marked with a red cross.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Segregation Rating System Explanation -->
+    <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm space-y-6">
+        <div>
+            <h3 class="text-2xl font-bold text-slate-900">Understanding the 1 to 5 Star Segregation Rating</h3>
+            <p class="text-sm text-slate-600 mt-1">When the Waste Collector scans your QR code at your door, they record an audit rating based on compliance:</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 pt-2">
+            <div class="p-4 rounded-xl border border-slate-200 bg-rose-50/50 space-y-2 text-center">
+                <div class="text-amber-500 font-black text-lg flex items-center justify-center">
+                    1 <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400 ml-1"></i>
+                </div>
+                <div class="text-xs font-bold text-rose-700">Completely Mixed</div>
+                <p class="text-[11px] text-slate-500">Wet and dry waste dumped into one container without segregation.</p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 bg-amber-50/50 space-y-2 text-center">
+                <div class="text-amber-500 font-black text-lg flex items-center justify-center">
+                    2 <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400 ml-1"></i>
+                </div>
+                <div class="text-xs font-bold text-amber-700">Poor Segregation</div>
+                <p class="text-[11px] text-slate-500">Plastics or glass mixed inside organic waste bucket.</p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 bg-yellow-50/50 space-y-2 text-center">
+                <div class="text-amber-500 font-black text-lg flex items-center justify-center">
+                    3 <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400 ml-1"></i>
+                </div>
+                <div class="text-xs font-bold text-yellow-700">Average Segregation</div>
+                <p class="text-[11px] text-slate-500">Separated bins, but sanitary waste or soiled food packets mixed.</p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 bg-emerald-50/50 space-y-2 text-center">
+                <div class="text-amber-500 font-black text-lg flex items-center justify-center">
+                    4 <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400 ml-1"></i>
+                </div>
+                <div class="text-xs font-bold text-emerald-700">Good Segregation</div>
+                <p class="text-[11px] text-slate-500">Wet and dry segregated cleanly; minimal contamination.</p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 bg-emerald-100/60 space-y-2 text-center">
+                <div class="text-amber-500 font-black text-lg flex items-center justify-center">
+                    5 <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400 ml-1"></i>
+                </div>
+                <div class="text-xs font-bold text-emerald-900">Pristine Model</div>
+                <p class="text-[11px] text-emerald-800 font-medium">Flawless 3-way segregation. Eligible for village Green Household Recognition!</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,383 @@
+{% extends 'base.html' %}
+
+{% block title %}Doorstep Collection Scanner | GreenPath{% endblock %}
+
+{% block extra_head %}
+<!-- HTML5 QR Code Scanner Library -->
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<style>
+    #qr-reader {
+        width: 100% !important;
+        border: none !important;
+    }
+    #qr-reader video {
+        border-radius: 1rem;
+        object-fit: cover;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto px-4 py-6 space-y-6">
+
+    <!-- Top Sticky Operational Status Bar (FR-61) -->
+    <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-emerald-600 text-white p-5 rounded-3xl shadow-lg space-y-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-300 animate-ping"></span>
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-100">Collector On-Duty</span>
+            </div>
+            <span class="text-xs font-semibold bg-white/20 px-2.5 py-1 rounded-full backdrop-blur-sm">
+                {{ village.name }}
+            </span>
+        </div>
+
+        <div class="flex items-center justify-between pt-1">
+            <div>
+                <span class="text-[11px] text-amber-100 font-medium block">Collections Saved Today (FR-61)</span>
+                <span id="today-counter" class="text-4xl font-black tracking-tight">{{ today_count }}</span>
+                <span class="text-xs text-amber-100 block">Households Visited</span>
+            </div>
+            <div class="text-right">
+                <span class="text-xs font-bold block">{{ user.get_full_name|default:user.username }}</span>
+                <span class="text-[10px] text-amber-100 font-mono">@{{ user.username }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 1: Scanner Trigger & Camera Section -->
+    <div id="scanner-section" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+        <div class="text-center space-y-1">
+            <h2 class="text-lg font-extrabold text-slate-900">Doorstep QR Scanner</h2>
+            <p class="text-xs text-slate-500">Point device camera at the household door tag (FR-27)</p>
+        </div>
+
+        <!-- Camera Scanner Element -->
+        <div id="camera-container" class="hidden overflow-hidden rounded-2xl bg-black relative">
+            <div id="qr-reader" class="w-full"></div>
+            <button type="button" id="stop-scanner-btn" class="absolute top-3 right-3 px-3 py-1 rounded-full bg-rose-600 text-white text-xs font-bold shadow-md z-10">
+                Close Camera
+            </button>
+        </div>
+
+        <!-- Camera Start Button -->
+        <button type="button" id="start-scanner-btn" class="w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-sm shadow-lg shadow-emerald-600/25 flex items-center justify-center space-x-2.5 transition-all">
+            <i data-lucide="camera" class="w-5 h-5"></i>
+            <span>Scan Household QR Code</span>
+        </button>
+
+        <!-- Manual Lookup Fallback (Desktop / Manual Testing) -->
+        <div class="pt-3 border-t border-slate-100">
+            <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2 text-center">
+                Or Validate Household UID Manually
+            </div>
+            <div class="flex space-x-2">
+                <input type="text" id="manual-uid-input" placeholder="e.g. HH-VIL01-W01-0001"
+                    class="flex-1 px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-mono uppercase focus:ring-2 focus:ring-emerald-500">
+                <button type="button" id="manual-validate-btn" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors">
+                    Validate
+                </button>
+            </div>
+            <div id="validation-error" class="hidden text-xs text-rose-600 font-semibold mt-2 text-center"></div>
+        </div>
+    </div>
+
+    <!-- Step 2: Verified Household Confirmation Card (FR-30) -->
+    <div id="household-verified-card" class="hidden bg-white p-6 rounded-3xl border-2 border-emerald-500 shadow-md space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
+                    ✓
+                </span>
+                <span class="text-xs font-black uppercase tracking-wider text-emerald-700">Verified Household</span>
+            </div>
+            <button type="button" id="cancel-scan-btn" class="text-xs font-semibold text-slate-400 hover:text-rose-600">
+                Cancel
+            </button>
+        </div>
+
+        <div class="space-y-1">
+            <div class="flex justify-between items-baseline">
+                <span class="text-2xl font-black text-slate-900" id="hh-head-name">Resident Name</span>
+                <span class="text-sm font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200" id="hh-house-number">#10</span>
+            </div>
+            <div class="text-xs text-slate-500 flex items-center space-x-2">
+                <span id="hh-ward" class="font-semibold text-slate-700">Ward 01</span>
+                <span>&bull;</span>
+                <span id="hh-uid" class="font-mono text-emerald-700 font-bold">UID</span>
+            </div>
+        </div>
+
+        <!-- Step 3: Doorstep Collection Recording Form (FR-31 to FR-37) -->
+        <form id="doorstep-form" method="POST" action="{% url 'doorstep_submit' %}" class="space-y-4 pt-2 border-t border-slate-100">
+            {% csrf_token %}
+            <input type="hidden" name="household_uid" id="form-household-uid" value="">
+
+            <!-- Outcome Toggle: Collected vs Missed -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Visit Outcome</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="outcome" value="COLLECTED" checked class="peer sr-only">
+                        <div class="p-3 rounded-xl border-2 border-slate-200 peer-checked:border-emerald-600 peer-checked:bg-emerald-50 text-center text-xs font-bold text-slate-700 peer-checked:text-emerald-900 transition-all">
+                            🟢 Waste Collected
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="outcome" value="MISSED" class="peer sr-only">
+                        <div class="p-3 rounded-xl border-2 border-slate-200 peer-checked:border-rose-600 peer-checked:bg-rose-50 text-center text-xs font-bold text-slate-700 peer-checked:text-rose-900 transition-all">
+                            🔴 Missed / Locked
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Collected Specific Inputs -->
+            <div id="collected-fields" class="space-y-4 bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+                <!-- Segregation Yes/No -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Was Waste Segregated at Source? (FR-32)</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="is_segregated" value="true" checked class="peer sr-only">
+                            <div class="py-2 px-3 rounded-lg border border-slate-300 peer-checked:border-emerald-600 peer-checked:bg-emerald-600 peer-checked:text-white text-center text-xs font-semibold text-slate-700">
+                                Yes, Segregated
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="is_segregated" value="false" class="peer sr-only">
+                            <div class="py-2 px-3 rounded-lg border border-slate-300 peer-checked:border-amber-600 peer-checked:bg-amber-600 peer-checked:text-white text-center text-xs font-semibold text-slate-700">
+                                No, Mixed
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Waste Types Multi-Checkbox (FR-33) -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Waste Streams Collected (FR-33)</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer">
+                            <input type="checkbox" name="waste_wet" value="true" checked class="w-4 h-4 text-emerald-600 rounded">
+                            <span class="text-xs font-semibold text-slate-800">Wet</span>
+                        </label>
+                        <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer">
+                            <input type="checkbox" name="waste_dry" value="true" checked class="w-4 h-4 text-blue-600 rounded">
+                            <span class="text-xs font-semibold text-slate-800">Dry</span>
+                        </label>
+                        <label class="flex items-center space-x-2 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer">
+                            <input type="checkbox" name="waste_sanitary" value="true" class="w-4 h-4 text-rose-600 rounded">
+                            <span class="text-xs font-semibold text-slate-800">Sanitary</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Segregation Rating 1-5 (FR-34) -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Segregation Audit Rating (1 to 5 Stars) *</label>
+                    <select name="segregation_rating" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-emerald-500">
+                        <option value="5">⭐⭐⭐⭐⭐ 5 Stars - Pristine Segregation</option>
+                        <option value="4" selected>⭐⭐⭐⭐ 4 Stars - Good Segregation</option>
+                        <option value="3">⭐⭐⭐ 3 Stars - Average / Partial</option>
+                        <option value="2">⭐⭐ 2 Stars - Poor Quality</option>
+                        <option value="1">⭐ 1 Star - Completely Mixed</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Missed Specific Inputs (FR-36) -->
+            <div id="missed-fields" class="hidden space-y-3 bg-rose-50/60 p-4 rounded-2xl border border-rose-200">
+                <label class="block text-xs font-bold text-rose-900 mb-1">Reason for Missed Visit (FR-36) *</label>
+                <select name="missed_reason" class="w-full px-4 py-2.5 rounded-xl border border-rose-300 text-xs font-semibold focus:ring-2 focus:ring-rose-500">
+                    <option value="">-- Select Configured Reason --</option>
+                    <option value="LOCKED">House Locked</option>
+                    <option value="NOT_SEGREGATED">Waste Not Segregated</option>
+                    <option value="REFUSED">Resident Refused</option>
+                    <option value="NO_WASTE">No Waste Today</option>
+                    <option value="OTHER">Other Reason</option>
+                </select>
+            </div>
+
+            <!-- Optional Remarks (FR-35) -->
+            <div class="space-y-1">
+                <label class="block text-xs font-bold text-slate-700">Collector Remarks (Optional)</label>
+                <input type="text" name="remarks" placeholder="Notes on bin cleanliness, warnings given, etc."
+                    class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs">
+            </div>
+
+            <button type="submit" class="w-full py-3.5 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-lg shadow-emerald-600/25 active:scale-95 transition-all">
+                Submit Doorstep Record & Next
+            </button>
+        </form>
+    </div>
+
+    <!-- Recent Recorded Visits List -->
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <h3 class="text-sm font-bold text-slate-900">Your Recent Doorstep Visits Today</h3>
+        <div class="divide-y divide-slate-100 text-xs">
+            {% for visit in recent_visits %}
+            <div class="py-2.5 flex items-center justify-between">
+                <div>
+                    <span class="font-bold text-slate-800">{{ visit.household.head_name }}</span>
+                    <span class="text-slate-400 block text-[11px]">#{{ visit.household.house_number }} &bull; {{ visit.ward.ward_number }}</span>
+                </div>
+                <div class="text-right">
+                    {% if visit.outcome == 'COLLECTED' %}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                            {{ visit.segregation_rating }}★ Collected
+                        </span>
+                    {% else %}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800">
+                            {{ visit.get_missed_reason_display }}
+                        </span>
+                    {% endif %}
+                    <span class="text-[10px] text-slate-400 block">{{ visit.collection_time|time:"H:i" }}</span>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center py-4 text-slate-400 italic">No collection records submitted yet today.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+<!-- QR Scanner & Validation Controller JS -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let html5QrCode = null;
+        const startBtn = document.getElementById('start-scanner-btn');
+        const stopBtn = document.getElementById('stop-scanner-btn');
+        const cameraContainer = document.getElementById('camera-container');
+        const manualBtn = document.getElementById('manual-validate-btn');
+        const manualInput = document.getElementById('manual-uid-input');
+        const errorDiv = document.getElementById('validation-error');
+
+        const scannerSection = document.getElementById('scanner-section');
+        const verifiedCard = document.getElementById('household-verified-card');
+        const cancelBtn = document.getElementById('cancel-scan-btn');
+
+        // Form outcome toggles
+        const outcomeRadios = document.querySelectorAll('input[name="outcome"]');
+        const collectedFields = document.getElementById('collected-fields');
+        const missedFields = document.getElementById('missed-fields');
+
+        outcomeRadios.forEach(r => {
+            r.addEventListener('change', (e) => {
+                if (e.target.value === 'COLLECTED') {
+                    collectedFields.classList.remove('hidden');
+                    missedFields.classList.add('hidden');
+                } else {
+                    collectedFields.classList.add('hidden');
+                    missedFields.classList.remove('hidden');
+                }
+            });
+        });
+
+        // Start Camera QR Scanner
+        startBtn.addEventListener('click', async () => {
+            errorDiv.classList.add('hidden');
+            cameraContainer.classList.remove('hidden');
+            startBtn.classList.add('hidden');
+
+            try {
+                html5QrCode = new Html5Qrcode("qr-reader");
+                const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+                await html5QrCode.start(
+                    { facingMode: "environment" },
+                    config,
+                    onQrSuccess,
+                    onQrError
+                );
+            } catch (err) {
+                console.error("Camera access failed", err);
+                errorDiv.textContent = "Camera permission denied or camera unavailable. You can enter the UID manually below.";
+                errorDiv.classList.remove('hidden');
+                stopCamera();
+            }
+        });
+
+        stopBtn.addEventListener('click', stopCamera);
+
+        function stopCamera() {
+            if (html5QrCode) {
+                html5QrCode.stop().then(() => {
+                    html5QrCode.clear();
+                    html5QrCode = null;
+                }).catch(err => console.warn(err));
+            }
+            cameraContainer.classList.add('hidden');
+            startBtn.classList.remove('hidden');
+        }
+
+        function onQrSuccess(decodedText) {
+            stopCamera();
+            validateHousehold(decodedText);
+        }
+
+        function onQrError(errorMessage) {
+            // normal per-frame scan noise, ignore
+        }
+
+        // Manual validation trigger
+        manualBtn.addEventListener('click', () => {
+            const val = manualInput.value.trim();
+            if (val) {
+                validateHousehold(val);
+            }
+        });
+
+        manualInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                manualBtn.click();
+            }
+        });
+
+        // Server Validation Call (FR-28, FR-29, FR-30)
+        async function validateHousehold(qrData) {
+            errorDiv.classList.add('hidden');
+            try {
+                const response = await fetch('/api/v1/collector/validate-qr/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCsrfToken(),
+                    },
+                    body: JSON.stringify({ qr_data: qrData }),
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    displayHouseholdCard(data.household);
+                } else {
+                    errorDiv.textContent = data.error || "Household verification failed.";
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (err) {
+                errorDiv.textContent = "Network error communicating with server.";
+                errorDiv.classList.remove('hidden');
+            }
+        }
+
+        function displayHouseholdCard(hh) {
+            document.getElementById('hh-head-name').textContent = hh.head_name;
+            document.getElementById('hh-house-number').textContent = '#' + hh.house_number;
+            document.getElementById('hh-ward').textContent = hh.ward;
+            document.getElementById('hh-uid').textContent = hh.uid;
+            document.getElementById('form-household-uid').value = hh.uid;
+
+            scannerSection.classList.add('hidden');
+            verifiedCard.classList.remove('hidden');
+        }
+
+        cancelBtn.addEventListener('click', () => {
+            verifiedCard.classList.add('hidden');
+            scannerSection.classList.remove('hidden');
+            manualInput.value = '';
+            errorDiv.classList.add('hidden');
+        });
+    });
+</script>
+{% endblock %}
+

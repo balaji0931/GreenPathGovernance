@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block title %}My Household | {{ household.head_name }} | GreenPath{% endblock %}
+
+{% block content %}
+<!-- Resident Banner -->
+<div class="bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 text-white py-8 border-b border-emerald-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="space-y-1">
+                <div class="inline-flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-emerald-300 bg-emerald-950/70 px-2.5 py-0.5 rounded-md border border-emerald-700">
+                    <i data-lucide="home" class="w-3.5 h-3.5"></i>
+                    <span>Resident Household Portal (FR-46)</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{{ household.head_name }}</h1>
+                <p class="text-xs text-emerald-200">
+                    Door #{{ household.house_number }} &bull; {{ household.ward.ward_number }} &bull; {{ village.name }}
+                </p>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <a href="{% url 'household_qr_card' household.id %}" target="_blank" class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-900 font-bold text-xs shadow-md transition-all">
+                    <i data-lucide="qr-code" class="w-4 h-4 text-emerald-700"></i>
+                    <span>Print Doorstep QR Card</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Today's Status Banner (FR-47) & QR Card -->
+        <div class="lg:col-span-5 space-y-6">
+            
+            <!-- Today's Doorstep Status Card -->
+            <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Today's Collection Visit</h3>
+                    <span class="text-xs font-semibold text-slate-400">{{ today|date:"d M Y" }}</span>
+                </div>
+
+                {% if today_visit %}
+                    {% if today_visit.outcome == 'COLLECTED' %}
+                        <!-- Collected Card -->
+                        <div class="bg-emerald-50 border-2 border-emerald-500 rounded-2xl p-5 space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
+                                    <i data-lucide="check" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs uppercase font-extrabold text-emerald-800">Visit Status</span>
+                                    <h4 class="text-xl font-black text-emerald-950">Waste Collected</h4>
+                                </div>
+                            </div>
+
+                            <div class="space-y-1.5 pt-2 border-t border-emerald-200/60 text-xs text-emerald-900">
+                                <div class="flex justify-between">
+                                    <span class="font-medium text-emerald-700">Time Recorded:</span>
+                                    <span class="font-bold">{{ today_visit.collection_time|time:"H:i" }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="font-medium text-emerald-700">Segregation Audit:</span>
+                                    <span class="font-bold">
+                                        {% if today_visit.is_segregated %}
+                                            <span class="text-emerald-700">✓ Segregated</span>
+                                        {% else %}
+                                            <span class="text-amber-700">⚠ Mixed Waste</span>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-emerald-700">Rating Given:</span>
+                                    <span class="font-bold text-amber-500 flex items-center">
+                                        {{ today_visit.segregation_rating }} <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400 ml-1"></i>
+                                    </span>
+                                </div>
+                                {% if today_visit.collector %}
+                                <div class="flex justify-between">
+                                    <span class="font-medium text-emerald-700">Field Collector:</span>
+                                    <span class="font-semibold">{{ today_visit.collector.user.get_full_name|default:today_visit.collector.user.username }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Waste Categories Tag Pills -->
+                            <div class="pt-2 flex flex-wrap gap-1.5">
+                                {% if today_visit.waste_wet %}
+                                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-200 text-emerald-900">Wet / Organic</span>
+                                {% endif %}
+                                {% if today_visit.waste_dry %}
+                                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-100 text-blue-900">Dry / Recyclable</span>
+                                {% endif %}
+                                {% if today_visit.waste_sanitary %}
+                                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-rose-100 text-rose-900">Sanitary</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <!-- Explicit Missed Card -->
+                        <div class="bg-rose-50 border-2 border-rose-400 rounded-2xl p-5 space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center font-bold">
+                                    <i data-lucide="x" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs uppercase font-extrabold text-rose-800">Visit Status</span>
+                                    <h4 class="text-xl font-black text-rose-950">Collection Missed</h4>
+                                </div>
+                            </div>
+                            <div class="pt-2 border-t border-rose-200 text-xs text-rose-900 space-y-1">
+                                <div class="flex justify-between">
+                                    <span class="font-semibold">Recorded Reason:</span>
+                                    <span class="font-bold">{{ today_visit.get_missed_reason_display }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="font-semibold">Time Recorded:</span>
+                                    <span>{{ today_visit.collection_time|time:"H:i" }}</span>
+                                </div>
+                                {% if today_visit.remarks %}
+                                <div class="text-[11px] text-rose-700 italic pt-1">"{{ today_visit.remarks }}"</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <!-- Pending Visit -->
+                    <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center space-y-2">
+                        <div class="w-10 h-10 mx-auto rounded-xl bg-slate-200 text-slate-500 flex items-center justify-center">
+                            <i data-lucide="clock" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="text-base font-bold text-slate-800">Visit Pending Today</h4>
+                        <p class="text-xs text-slate-500 max-w-xs mx-auto">
+                            The waste collector has not recorded a collection visit for your household yet today.
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Household QR Code Card Preview (FR-48) -->
+            <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm text-center space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Your Doorstep Tag</h3>
+                    <span class="font-mono text-xs font-bold text-emerald-700">{{ household.uid }}</span>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl inline-block border border-slate-100">
+                    {% if household.qr_code_image %}
+                        <img src="{{ household.qr_code_image.url }}" alt="Doorstep QR Code" class="w-40 h-40 mx-auto object-contain">
+                    {% endif %}
+                </div>
+
+                <div class="text-xs text-slate-500">
+                    Ensure this QR tag is visible at your front door or gate for the morning collector visit.
+                </div>
+
+                <a href="{% url 'household_qr_card' household.id %}" target="_blank" class="w-full inline-flex items-center justify-center space-x-2 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-colors">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                    <span>Download / Print QR Card</span>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Right: Reverse-Chronological Collection History Table (FR-49) -->
+        <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden space-y-4">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900">Collection Visit History</h3>
+                    <p class="text-xs text-slate-500">Historical doorstep audit visits for UID {{ household.uid }} (FR-49)</p>
+                </div>
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+                    {{ history.count }} Recorded
+                </span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200 text-[11px]">
+                        <tr>
+                            <th class="px-6 py-3">Date & Time</th>
+                            <th class="px-6 py-3 text-center">Status</th>
+                            <th class="px-6 py-3 text-center">Segregation Audit</th>
+                            <th class="px-6 py-3 text-center">Rating</th>
+                            <th class="px-6 py-3">Collector</th>
+                            <th class="px-6 py-3">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        {% for visit in history %}
+                        <tr class="hover:bg-slate-50/70 transition-colors">
+                            <td class="px-6 py-3.5">
+                                <span class="font-bold text-slate-900 block">{{ visit.collection_date|date:"d M Y" }}</span>
+                                <span class="text-[10px] text-slate-400 font-mono">{{ visit.collection_time|time:"H:i" }}</span>
+                            </td>
+                            <td class="px-6 py-3.5 text-center">
+                                {% if visit.outcome == 'COLLECTED' %}
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                        Collected
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800" title="{{ visit.remarks }}">
+                                        {{ visit.get_missed_reason_display }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-3.5 text-center">
+                                {% if visit.outcome == 'COLLECTED' %}
+                                    {% if visit.is_segregated %}
+                                        <span class="text-emerald-700 font-semibold text-[11px]">Segregated</span>
+                                    {% else %}
+                                        <span class="text-amber-700 font-semibold text-[11px]">Mixed</span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-slate-400">-</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-3.5 text-center">
+                                {% if visit.segregation_rating %}
+                                    <span class="font-bold text-amber-500">
+                                        {{ visit.segregation_rating }}★
+                                    </span>
+                                {% else %}
+                                    <span class="text-slate-400">-</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-3.5 text-slate-500">
+                                {{ visit.collector.user.get_full_name|default:visit.collector.user.username }}
+                            </td>
+                            <td class="px-6 py-3.5 text-slate-500 italic text-[11px]">
+                                {{ visit.remarks|default:"-" }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-8 text-center text-slate-400 italic">
+                                No collection visits recorded yet.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

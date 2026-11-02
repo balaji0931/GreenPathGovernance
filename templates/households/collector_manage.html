@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Waste Collectors | {{ village.name }} | GreenPath{% endblock %}
+
+{% block content %}
+<div class="bg-white border-b border-slate-200 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="space-y-1">
+                <div class="flex items-center space-x-2 text-xs text-slate-500">
+                    <a href="{% url 'manager_dashboard' %}" class="hover:text-slate-800">Manager Hub</a>
+                    <span>/</span>
+                    <span class="text-slate-800 font-semibold">Waste Collectors</span>
+                </div>
+                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Waste Collectors ({{ village.name }})</h1>
+                <p class="text-xs text-slate-500">Field personnel authorized for doorstep QR scanning in this Gram Panchayat (FR-14, FR-15).</p>
+            </div>
+            
+            <a href="{% url 'manager_dashboard' %}" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs">
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Provision Collector Form -->
+        <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+            <div class="border-b border-slate-100 pb-3">
+                <h3 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+                    <i data-lucide="user-plus" class="w-4 h-4 text-amber-600"></i>
+                    <span>Appoint Waste Collector</span>
+                </h3>
+                <p class="text-xs text-slate-500">Create login credentials for mobile doorstep scanner</p>
+            </div>
+
+            {% if form.errors %}
+            <div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 space-y-1">
+                {% for field, errors in form.errors.items %}
+                    <p>{{ field|capfirst }}: {{ errors.0 }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label for="{{ form.first_name.id_for_label }}" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                            First Name
+                        </label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="space-y-1">
+                        <label for="{{ form.last_name.id_for_label }}" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                            Last Name
+                        </label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label for="{{ form.username.id_for_label }}" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                        Collector Username <span class="text-rose-500">*</span>
+                    </label>
+                    {{ form.username }}
+                </div>
+
+                <div class="space-y-1">
+                    <label for="{{ form.password.id_for_label }}" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                        Initial Password <span class="text-rose-500">*</span>
+                    </label>
+                    {{ form.password }}
+                </div>
+
+                <div class="space-y-1">
+                    <label for="{{ form.phone_number.id_for_label }}" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                        Contact Phone
+                    </label>
+                    {{ form.phone_number }}
+                </div>
+
+                <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md shadow-amber-600/20 transition-all">
+                    Register Collector Account
+                </button>
+            </form>
+        </div>
+
+        <!-- Right: Current Collectors List -->
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-4">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900">Assigned Collectors</h3>
+                    <p class="text-xs text-slate-500">Field staff active in {{ village.name }}</p>
+                </div>
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+                    {{ collectors.count }} Staff
+                </span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200 text-[11px]">
+                        <tr>
+                            <th class="px-6 py-3">Username</th>
+                            <th class="px-6 py-3">Collector Name</th>
+                            <th class="px-6 py-3">Phone</th>
+                            <th class="px-6 py-3 text-center">Status</th>
+                            <th class="px-6 py-3 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        {% for c in collectors %}
+                        <tr class="hover:bg-slate-50/70 transition-colors">
+                            <td class="px-6 py-3.5 font-mono font-bold text-amber-700">
+                                @{{ c.user.username }}
+                            </td>
+                            <td class="px-6 py-3.5 font-bold text-slate-900">
+                                {{ c.user.get_full_name|default:"-" }}
+                            </td>
+                            <td class="px-6 py-3.5 text-slate-500">
+                                {{ c.phone_number|default:"-" }}
+                            </td>
+                            <td class="px-6 py-3.5 text-center">
+                                {% if c.user.is_active %}
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                        Active
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-500">
+                                        Deactivated
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-3.5 text-right">
+                                <form method="POST" action="{% url 'collector_toggle_status' c.user.id %}" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="text-[11px] font-semibold text-slate-600 hover:text-rose-600 px-2.5 py-1 rounded-lg border border-slate-200 hover:border-rose-200 transition-colors">
+                                        {% if c.user.is_active %}Deactivate{% else %}Activate{% endif %}
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-8 text-center text-slate-400 italic">
+                                No collectors appointed for this village yet.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
