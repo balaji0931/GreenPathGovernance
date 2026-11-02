@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: greenpath-governance
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn greenpath.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        sync: false
+
