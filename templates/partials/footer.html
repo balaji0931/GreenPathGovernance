@@ -1,62 +1,126 @@
-<footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 mt-auto">
+<footer class="bg-slate-950 text-slate-400 py-16 border-t border-slate-800/80 mt-auto selection:bg-emerald-600 selection:text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div class="space-y-4 md:col-span-2">
-                <div class="flex items-center space-x-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white">
+        <!-- Top Callout Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
+            <!-- Brand & Mission Column -->
+            <div class="lg:col-span-5 space-y-5">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
                         <i data-lucide="leaf" class="w-5 h-5"></i>
                     </div>
-                    <span class="text-xl font-bold tracking-tight text-white">
-                        Green<span class="text-emerald-500">Path</span>
-                    </span>
+                    <div>
+                        <span class="text-2xl font-black tracking-tight text-white">
+                            Green<span class="text-emerald-400">Path</span>
+                        </span>
+                        <span class="block text-[10px] uppercase tracking-wider font-bold text-slate-500 -mt-0.5">
+                            Smart Village Waste Governance
+                        </span>
+                    </div>
                 </div>
-                <p class="text-sm leading-relaxed max-w-md text-slate-400">
-                    Smart Village Waste Governance Platform for Gram Panchayats. Bringing digital accountability to door-to-door solid waste collection, segregation monitoring, and ward coverage.
+
+                <p class="text-sm leading-relaxed text-slate-400 max-w-md">
+                    GreenPath is a next-generation civic technology platform engineered for Gram Panchayats, Municipal Councils, and Residential Communities. We replace unreliable paperwork with tamper-proof household QR tags, mobile doorstep verification, and 3-stream waste segregation auditing.
                 </p>
-                <div class="flex items-center space-x-3 text-xs text-slate-500">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md bg-slate-800 text-emerald-400 font-mono">
-                        Session 2026-27
+
+                <!-- Model Highlight: Zero Household Charge -->
+                <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-1.5 max-w-md">
+                    <div class="flex items-center space-x-2 text-emerald-400 font-bold">
+                        <i data-lucide="badge-percent" class="w-4 h-4"></i>
+                        <span>Zero Direct Household Surcharges</span>
+                    </div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">
+                        Households access digital services at zero direct cost. Institutional management organizations pay a transparent flat fee of <strong class="text-white">₹5 / household managed</strong> (min ₹500/mo).
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3 pt-2 text-xs text-slate-400">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-400 font-mono border border-slate-800">
+                        ISO / Swachh Bharat Aligned
                     </span>
-                    <span>INT253 Django Web Development</span>
+                    <span class="text-slate-500">Zero Resident PII on Hardware</span>
                 </div>
             </div>
 
-            <div>
-                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-200 mb-4">Platform</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="{% url 'landing' %}" class="hover:text-emerald-400 transition-colors">Home & Overview</a></li>
-                    <li><a href="{% url 'segregation_guide' %}" class="hover:text-emerald-400 transition-colors">Segregation Guide</a></li>
-                    <li><a href="{% url 'login' %}" class="hover:text-emerald-400 transition-colors">Staff / Resident Portal</a></li>
+            <!-- Solutions & Features -->
+            <div class="lg:col-span-2 space-y-4">
+                <h4 class="text-xs font-bold uppercase tracking-widest text-slate-200">
+                    Platform
+                </h4>
+                <ul class="space-y-2.5 text-sm">
+                    <li><a href="{% url 'landing' %}" class="hover:text-emerald-400 transition-colors">Overview</a></li>
+                    <li><a href="{% url 'product' %}" class="hover:text-emerald-400 transition-colors">Product Architecture</a></li>
+                    <li><a href="{% url 'product' %}#doorstep-engine" class="hover:text-emerald-400 transition-colors">Doorstep QR Engine</a></li>
+                    <li><a href="{% url 'product' %}#segregation-audit" class="hover:text-emerald-400 transition-colors">3-Way Waste Rating</a></li>
+                    <li><a href="{% url 'segregation_guide' %}" class="hover:text-emerald-400 transition-colors">Citizen Segregation Guide</a></li>
+                    <li><a href="{% url 'pricing' %}" class="hover:text-emerald-400 transition-colors">Transparent Pricing</a></li>
                 </ul>
             </div>
 
-            <div>
-                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-200 mb-4">Four Governance Roles</h4>
-                <ul class="space-y-1.5 text-xs text-slate-400">
-                    <li class="flex items-center space-x-2">
-                        <span class="w-2 h-2 rounded-full bg-purple-500"></span>
-                        <span>Super Admin (Panchayat Setup)</span>
+            <!-- Four Governance Roles -->
+            <div class="lg:col-span-2 space-y-4">
+                <h4 class="text-xs font-bold uppercase tracking-widest text-slate-200">
+                    Governance Portals
+                </h4>
+                <ul class="space-y-2 text-xs">
+                    <li class="flex items-start space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 mt-1.5 flex-shrink-0"></span>
+                        <span class="text-slate-300"><strong>Super Admin:</strong> Multi-village & Ward boundary setup</span>
                     </li>
-                    <li class="flex items-center space-x-2">
-                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                        <span>Village Manager (Households & Reports)</span>
+                    <li class="flex items-start space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"></span>
+                        <span class="text-slate-300"><strong>Village Manager:</strong> Registry & Daily Reports</span>
                     </li>
-                    <li class="flex items-center space-x-2">
-                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                        <span>Waste Collector (Doorstep QR Validation)</span>
+                    <li class="flex items-start space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 mt-1.5 flex-shrink-0"></span>
+                        <span class="text-slate-300"><strong>Waste Collector:</strong> Mobile Gate Scanner PWA</span>
                     </li>
-                    <li class="flex items-center space-x-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        <span>Household (QR & Collection History)</span>
+                    <li class="flex items-start space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+                        <span class="text-slate-300"><strong>Household:</strong> Scan History & Streak Card</span>
                     </li>
                 </ul>
+            </div>
+
+            <!-- Contact & Institutional Inquiries -->
+            <div class="lg:col-span-3 space-y-4">
+                <h4 class="text-xs font-bold uppercase tracking-widest text-slate-200">
+                    Contact & Inquiries
+                </h4>
+                <div class="space-y-3 text-xs leading-relaxed">
+                    <p class="text-slate-400">
+                        Interested in deploying GreenPath across your Gram Panchayat, Ward, or Residential Society?
+                    </p>
+
+                    <!-- Official Email Card -->
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <span class="block text-[10px] uppercase font-bold text-slate-500">Official Communication</span>
+                        <a href="mailto:contact@greenpath.com" class="text-sm font-bold text-emerald-400 hover:text-emerald-300 flex items-center space-x-1.5 mt-0.5 group">
+                            <i data-lucide="mail" class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform"></i>
+                            <span>contact@greenpath.com</span>
+                        </a>
+                        <span class="block text-[10px] text-slate-500 mt-1">Guaranteed reply within 24 hours</span>
+                    </div>
+
+                    <div class="pt-1">
+                        <a href="{% url 'contact' %}" class="inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30 border border-emerald-500/30 font-semibold text-xs transition-colors">
+                            <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                            <span>Open Inquiries Desk</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="pt-8 border-t border-slate-800 text-center md:flex md:justify-between text-xs text-slate-500">
-            <p>&copy; 2026-27 GreenPath Waste Governance System. All rights reserved.</p>
-            <p class="mt-2 md:mt-0">Built with Django Monolithic Architecture & Neon PostgreSQL.</p>
+        <!-- Bottom Copyright & Compliance Strip -->
+        <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+            <div class="flex items-center space-x-2 text-center md:text-left">
+                <span>&copy; 2026-27 GreenPath Waste Governance Systems. All rights reserved.</span>
+            </div>
+            <div class="flex items-center space-x-6 text-slate-400">
+                <a href="{% url 'pricing' %}" class="hover:text-emerald-400 transition-colors">₹5/HH Pricing</a>
+                <a href="{% url 'contact' %}" class="hover:text-emerald-400 transition-colors">contact@greenpath.com</a>
+                <a href="{% url 'login' %}" class="hover:text-emerald-400 transition-colors font-semibold text-slate-300">Staff & Resident Login</a>
+            </div>
         </div>
     </div>
 </footer>
-

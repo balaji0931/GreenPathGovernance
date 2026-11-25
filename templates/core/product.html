@@ -1,0 +1,379 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Architecture & Features | GreenPath Waste Governance{% endblock %}
+
+{% block content %}
+<!-- Product Hero -->
+<section class="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900 to-emerald-950 text-white pt-16 pb-24 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-500/30">
+                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                <span>Complete System Architecture</span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl font-black tracking-tight leading-tight">
+                Engineered for Grassroots Scale and Audit Transparency.
+            </h1>
+
+            <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                GreenPath replaces fragile paper tick-sheets with an end-to-end digital ecosystem: privacy-first doorstep QR tags, mobile camera scanning, 3-stream segregation tracking, and live ward coverage analytics.
+            </p>
+
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+                <a href="{% url 'pricing' %}" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition-all">
+                    Explore Pricing (₹5 / HH)
+                </a>
+                <a href="{% url 'contact' %}" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm border border-slate-700 transition-all">
+                    Schedule a Panchayat Demo
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- System Modules Deep Dive -->
+<section class="py-20 bg-white border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
+        
+        <!-- Module 1: Doorstep QR Tagging Engine -->
+        <div id="doorstep-engine" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-6 space-y-5">
+                <div class="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-md">
+                    <span>Module 01</span>
+                    <span>•</span>
+                    <span>Identification Hardware</span>
+                </div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+                    Batch Cryptographic Doorstep QR Engine
+                </h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Every household is assigned an anonymous, structured Unique Identifier (UID) adhering to standard municipal hierarchical naming: <code class="bg-slate-100 text-emerald-700 px-1.5 py-0.5 rounded font-mono text-xs">HH-{VILLAGE}-{WARD}-{NUMBER}</code>.
+                </p>
+                <div class="space-y-3 text-xs text-slate-600">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">Zero Resident PII on Physical Tags:</strong>
+                            No citizen phone numbers, family names, or confidential details are printed on public-facing gate cards.
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">High-Contrast Print Layouts:</strong>
+                            Generates print-ready batch PDF/HTML plates formatted for durable sticker sheets or PVC door plates.
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">Instant Server-Side Boundary Validation:</strong>
+                            A tag scanned outside its registered Panchayat is instantly flagged as unauthorized.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <div class="max-w-xs mx-auto bg-white p-6 rounded-2xl border-2 border-slate-800 shadow-md text-center space-y-3">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-emerald-700">GreenPath Doorstep Tag</div>
+                    <div class="w-40 h-40 mx-auto bg-slate-50 p-2 rounded-xl border border-slate-200 flex items-center justify-center">
+                        <i data-lucide="qr-code" class="w-32 h-32 text-slate-900"></i>
+                    </div>
+                    <div class="font-mono text-xs font-black text-slate-900">HH-VILSHI-W01-0042</div>
+                    <div class="text-[9px] text-slate-400">Ward 01 • Shivaji Gram Panchayat • Tamper Protected</div>
+                </div>
+                <div class="text-center text-[11px] text-slate-500">
+                    Generated dynamically via Python QR service & persisted in Django media storage.
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2: Mobile Collector PWA Scanner -->
+        <div id="collector-scanner" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-6 order-2 lg:order-1 bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <div class="max-w-sm mx-auto bg-slate-900 text-white p-5 rounded-3xl shadow-xl space-y-4 border border-slate-800">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-emerald-400 font-bold flex items-center space-x-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span>Doorstep Scanner Active</span>
+                        </span>
+                        <span class="text-slate-400 font-mono">142 Visited</span>
+                    </div>
+
+                    <div class="bg-black/60 rounded-2xl p-6 text-center border border-emerald-500/40 space-y-2">
+                        <div class="w-10 h-10 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                            <i data-lucide="camera" class="w-5 h-5"></i>
+                        </div>
+                        <div class="text-xs font-bold text-white">Household Gate Verified!</div>
+                        <div class="text-[11px] text-emerald-400 font-mono">Door # 42 • Ramesh Sharma</div>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <div class="text-[10px] uppercase font-bold text-slate-400">Doorstep Segregation Audit:</div>
+                        <div class="grid grid-cols-3 gap-2 text-center text-[11px] font-bold">
+                            <div class="p-2 rounded-xl bg-emerald-600/30 border border-emerald-500/50 text-emerald-300">Wet: ✓</div>
+                            <div class="p-2 rounded-xl bg-emerald-600/30 border border-emerald-500/50 text-emerald-300">Dry: ✓</div>
+                            <div class="p-2 rounded-xl bg-slate-800 text-slate-400">Sanitary: -</div>
+                        </div>
+                    </div>
+
+                    <div class="pt-1 text-center">
+                        <div class="w-full py-2.5 rounded-xl bg-emerald-600 font-bold text-xs text-white">Record Doorstep Visit</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 order-1 lg:order-2 space-y-5">
+                <div class="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-amber-700 bg-amber-50 px-3 py-1 rounded-md">
+                    <span>Module 02</span>
+                    <span>•</span>
+                    <span>Field Frontline Operations</span>
+                </div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+                    Zero-Hardware Mobile Collector Web PWA
+                </h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Sanitation field personnel do not need expensive handheld hardware or proprietary barcode scanners. They simply open GreenPath in Chrome on their standard personal smartphone.
+                </p>
+                <div class="space-y-3 text-xs text-slate-600">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">HTML5 Camera Integration:</strong>
+                            Sub-second optical QR code decoding with audio-visual haptic confirmation upon successful gate match.
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">Exception Logging:</strong>
+                            If a resident's house is locked or waste is refused, the collector logs the structured reason with one tap for municipal accountability.
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">Daily Collector Route Counter:</strong>
+                            Real-time counter tracks progress against the total ward target, motivating collectors to complete 100% of their street route.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 3: 3-Stream Segregation Rating Engine -->
+        <div id="segregation-audit" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-6 space-y-5">
+                <div class="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-md">
+                    <span>Module 03</span>
+                    <span>•</span>
+                    <span>Waste Quality Index</span>
+                </div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+                    3-Way Segregation Auditing & Quality Grading
+                </h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Collecting unsegregated garbage turns landfills into environmental hazards. GreenPath turns every collection into a structured data point for source segregation.
+                </p>
+                <div class="space-y-3 text-xs text-slate-600">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">Wet / Dry / Sanitary Classification:</strong>
+                            Tracks presence of biodegradable kitchen organic waste, clean recyclables (paper/plastic), and sanitary/medical waste.
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">1 to 5 Star Segregation Rating:</strong>
+                            Collectors rate household segregation compliance in real time. The cumulative score creates a transparent Segregation Index for the ward.
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">Citizen Awareness Feedback Loop:</strong>
+                            Households see their score in their resident dashboard, fostering positive community hygiene habits.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-4">
+                    <h4 class="text-xs font-black uppercase tracking-wider text-slate-700">3-Stream Segregation Protocol</h4>
+                    
+                    <div class="space-y-3">
+                        <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                                <div>
+                                    <div class="text-xs font-bold text-emerald-950">Green Bin: Wet Organic Waste</div>
+                                    <div class="text-[10px] text-emerald-700">Cooked food, fruit peels, vegetable scraps, tea leaves</div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-emerald-800">Compostable</span>
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                                <div>
+                                    <div class="text-xs font-bold text-blue-950">Blue Bin: Dry Recyclables</div>
+                                    <div class="text-[10px] text-blue-700">Paper, cardboard, milk pouches, plastics, cans, glass</div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-blue-800">Recyclable</span>
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                                <div>
+                                    <div class="text-xs font-bold text-rose-950">Red Bin: Domestic Hazardous / Sanitary</div>
+                                    <div class="text-[10px] text-rose-700">Diapers, sanitary pads, medicines, bandages, broken glass</div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-rose-800">Safe Incineration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4: Command Center & Governance Reports -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-6 order-2 lg:order-1 bg-slate-50 p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <span class="text-xs font-bold text-slate-900">Daily Ward Governance Audit</span>
+                        <span class="text-[10px] font-bold text-slate-500">Generated 06:00 PM</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="p-2 rounded-lg bg-slate-50 border">
+                            <div class="text-slate-400 text-[10px]">Total Registered</div>
+                            <div class="font-black text-slate-900 text-sm">450</div>
+                        </div>
+                        <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900">
+                            <div class="text-emerald-700 text-[10px]">Collected</div>
+                            <div class="font-black text-sm">418</div>
+                        </div>
+                        <div class="p-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900">
+                            <div class="text-amber-700 text-[10px]">Locked / Missed</div>
+                            <div class="font-black text-sm">32</div>
+                        </div>
+                    </div>
+                    <div class="text-[11px] text-slate-500">
+                        Printable assembly sheets formatted for official Gram Sabha review and Swachh Survekshan audits.
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 order-1 lg:order-2 space-y-5">
+                <div class="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-purple-700 bg-purple-50 px-3 py-1 rounded-md">
+                    <span>Module 04</span>
+                    <span>•</span>
+                    <span>Executive Oversight</span>
+                </div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+                    Village Manager Command Tower & Analytics
+                </h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Empower Village Pradhans and administrative managers with live oversight into daily collection percentages, field staff attendance, and uncollected households.
+                </p>
+                <div class="space-y-3 text-xs text-slate-600">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">Audit-Ready Export Formats:</strong>
+                            Download CSV data or 1-click print official inspection sheets for block government reviews.
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-5 h-5 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">✓</div>
+                        <div>
+                            <strong class="text-slate-900">Uncollected Household Alerts:</strong>
+                            Instantly see which streets or gates were skipped so route corrections can occur before dusk.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Comparison Table: Traditional vs GreenPath -->
+<section class="py-20 bg-slate-50 border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <h2 class="text-xs uppercase font-extrabold tracking-widest text-emerald-600">
+                The CivicTech Advantage
+            </h2>
+            <p class="text-3xl font-black text-slate-900">
+                Traditional Waste Collection vs. GreenPath
+            </p>
+        </div>
+
+        <div class="overflow-x-auto bg-white rounded-3xl border border-slate-200 shadow-sm">
+            <table class="w-full text-left text-xs text-slate-600">
+                <thead class="bg-slate-50 text-slate-900 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200">
+                    <tr>
+                        <th class="px-6 py-4">Capability</th>
+                        <th class="px-6 py-4 text-slate-500">Traditional Paper Register</th>
+                        <th class="px-6 py-4 text-emerald-700 bg-emerald-50/70">GreenPath Digital Governance</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <tr>
+                        <td class="px-6 py-4 font-bold text-slate-900">Gate Verification</td>
+                        <td class="px-6 py-4 text-rose-600">None (Manual ticks filled at end of day)</td>
+                        <td class="px-6 py-4 font-bold text-emerald-700 bg-emerald-50/30">100% Cryptographic QR gate scan</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 font-bold text-slate-900">Hardware Investment</td>
+                        <td class="px-6 py-4">Expensive dedicated barcode terminals or none</td>
+                        <td class="px-6 py-4 font-bold text-emerald-700 bg-emerald-50/30">₹0 (Runs on basic smartphones in browser)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 font-bold text-slate-900">Segregation Auditing</td>
+                        <td class="px-6 py-4 text-rose-600">Zero data on source separation</td>
+                        <td class="px-6 py-4 font-bold text-emerald-700 bg-emerald-50/30">Wet / Dry / Sanitary rating with 1-5★ index</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 font-bold text-slate-900">Household Cost</td>
+                        <td class="px-6 py-4">Variable unverified cash collections</td>
+                        <td class="px-6 py-4 font-bold text-emerald-700 bg-emerald-50/30">₹0 Direct Household Charge (Organization Billed)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 font-bold text-slate-900">Citizen Transparency</td>
+                        <td class="px-6 py-4 text-rose-600">Zero citizen feedback mechanism</td>
+                        <td class="px-6 py-4 font-bold text-emerald-700 bg-emerald-50/30">Citizen portal with daily time logs & streak tracking</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Banner -->
+<section class="py-16 bg-slate-900 text-white">
+    <div class="max-w-4xl mx-auto px-4 text-center space-y-6">
+        <h2 class="text-3xl font-black">See GreenPath in Action for Your Ward</h2>
+        <p class="text-slate-300 text-sm max-w-xl mx-auto">
+            Contact our civic implementation team for an live pilot deployment with your Gram Panchayat or Housing Society.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+            <a href="{% url 'pricing' %}" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md transition-all">
+                View Pricing (₹5 / HH)
+            </a>
+            <a href="{% url 'contact' %}" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition-all">
+                Contact: contact@greenpath.com
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

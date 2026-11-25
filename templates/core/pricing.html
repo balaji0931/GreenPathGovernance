@@ -1,0 +1,418 @@
+{% extends 'base.html' %}
+
+{% block title %}Transparent Civic Pricing | GreenPath Waste Governance{% endblock %}
+
+{% block content %}
+<!-- Pricing Hero -->
+<section class="relative overflow-hidden bg-gradient-to-b from-emerald-50/70 via-white to-slate-50 pt-16 pb-20 border-b border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center space-y-6">
+            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-black uppercase tracking-wider border border-emerald-200/80">
+                <i data-lucide="tag" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Transparent Unit Economics</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                Predictable Civic Pricing. <br>
+                <span class="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Direct Households Pay ₹0</span>.
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+                No citizen is ever charged for waste audits or portal access. Managing organizations (Gram Panchayats, Municipal Councils, and Residential RWAs) pay a simple flat fee of <strong class="text-slate-900">₹5 / household managed per month</strong> with a minimum base of <strong class="text-slate-900">₹500 / month</strong>.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Interactive Real-Time Pricing Calculator -->
+<section class="py-16 sm:py-24 bg-white border-b border-slate-200/70">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-slate-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl border border-slate-800 space-y-8 relative overflow-hidden">
+            <!-- Glow background -->
+            <div class="absolute -right-24 -top-24 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+                <div>
+                    <h2 class="text-2xl font-black tracking-tight text-white flex items-center space-x-2">
+                        <i data-lucide="calculator" class="w-6 h-6 text-emerald-400"></i>
+                        <span>Organization Fee Calculator</span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">
+                        Billed monthly to the managing Gram Panchayat, Municipality, or RWA.
+                    </p>
+                </div>
+                <div class="flex items-center space-x-2 text-xs font-bold text-emerald-400 bg-emerald-950/80 px-3 py-1.5 rounded-xl border border-emerald-800/60">
+                    <i data-lucide="info" class="w-4 h-4"></i>
+                    <span>Rate: ₹5 / Household (Min ₹500/mo)</span>
+                </div>
+            </div>
+
+            <!-- Interactive Slider & Direct Input -->
+            <div class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <label for="hh-slider" class="text-xs font-bold uppercase tracking-wider text-slate-300">
+                        Total Number of Households to Manage:
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <input type="number" id="hh-input" min="1" max="50000" value="400"
+                            class="w-32 px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white font-mono font-bold text-sm text-right focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <span class="text-xs text-slate-400 font-bold">Households</span>
+                    </div>
+                </div>
+
+                <!-- Slider Control -->
+                <input type="range" id="hh-slider" min="50" max="5000" step="25" value="400"
+                    class="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+
+                <div class="flex justify-between text-[11px] text-slate-400 font-mono">
+                    <span>50 HH (Base ₹500)</span>
+                    <span>500 HH</span>
+                    <span>1,500 HH</span>
+                    <span>3,000 HH</span>
+                    <span>5,000+ HH</span>
+                </div>
+            </div>
+
+            <!-- Billing Calculation Result Card -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                <!-- Monthly Total -->
+                <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Monthly Total</div>
+                    <div class="flex items-baseline space-x-1.5">
+                        <span id="calc-monthly" class="text-3xl sm:text-4xl font-black text-white">₹2,000</span>
+                        <span class="text-xs text-slate-400 font-semibold">/ mo</span>
+                    </div>
+                    <div id="calc-floor-badge" class="text-[10px] font-bold text-emerald-400 pt-1">
+                        Standard rate: ₹5 × 400 households
+                    </div>
+                </div>
+
+                <!-- Annual Cost -->
+                <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Annual Investment</div>
+                    <div class="flex items-baseline space-x-1.5">
+                        <span id="calc-annual" class="text-3xl sm:text-4xl font-black text-emerald-400">₹24,000</span>
+                        <span class="text-xs text-slate-400 font-semibold">/ year</span>
+                    </div>
+                    <div class="text-[10px] text-slate-400 pt-1">
+                        100% eligible under Gram Panchayat 15th FC Grants
+                    </div>
+                </div>
+
+                <!-- Per Household Unit Cost -->
+                <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Daily Cost / Household</div>
+                    <div class="flex items-baseline space-x-1.5">
+                        <span id="calc-per-day" class="text-3xl sm:text-4xl font-black text-teal-300">₹0.16</span>
+                        <span class="text-xs text-slate-400 font-semibold">/ day</span>
+                    </div>
+                    <div class="text-[10px] text-slate-400 pt-1">
+                        Less than 20 paise per day for full digital governance!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Included in This Price -->
+            <div class="pt-4 border-t border-slate-800 space-y-3">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-300">
+                    What is Included with Every Organization Subscription:
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs text-slate-300">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                        <span>Unlimited Waste Collectors</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                        <span>Unlimited Batch QR Code Generation</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                        <span>Real-Time Ward Coverage Analytics</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                        <span>3-Stream Segregation Quality Rating</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                        <span>Citizen Self-Service Portal Access</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+                        <span>Downloadable Assembly Audit Reports</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA inside calculator -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-800">
+                <div class="text-xs text-slate-400">
+                    Deploying across a block with multiple Panchayats (5,000+ households)?
+                </div>
+                <a href="{% url 'contact' %}" class="inline-flex items-center space-x-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all">
+                    <span>Contact: contact@greenpath.com</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Tiers Comparison -->
+<section class="py-20 bg-slate-50 border-b border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+            <h2 class="text-xs uppercase font-extrabold tracking-widest text-emerald-600">
+                Pricing Structure
+            </h2>
+            <p class="text-3xl font-black text-slate-900">
+                Transparent Structure for Citizens & Institutions
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+            <!-- Tier 1: Direct Households -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-6">
+                <div class="space-y-4">
+                    <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider">
+                        <i data-lucide="home" class="w-3.5 h-3.5"></i>
+                        <span>Direct Households</span>
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-900">Resident Citizens</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        For all residents living in enrolled Gram Panchayats, wards, or residential societies.
+                    </p>
+
+                    <div class="pt-2">
+                        <span class="text-4xl font-black text-slate-900">₹0</span>
+                        <span class="text-xs font-bold text-slate-500">/ Free Forever</span>
+                    </div>
+
+                    <ul class="text-xs text-slate-600 space-y-2 pt-4 border-t border-slate-100">
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Daily collection verification</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>3-Stream segregation handbook</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Reprint household gate QR plate</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Historical pickup streak audit</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <a href="{% url 'login' %}" class="w-full py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-xs text-center transition-colors">
+                    Resident Portal Login
+                </a>
+            </div>
+
+            <!-- Tier 2: Managing Organization (Core Plan) -->
+            <div class="bg-white p-8 rounded-3xl border-2 border-emerald-600 shadow-xl flex flex-col justify-between space-y-6 relative">
+                <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-emerald-600 text-white text-[11px] font-black uppercase tracking-wider shadow-sm">
+                    Most Popular for Panchayats
+                </div>
+
+                <div class="space-y-4">
+                    <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
+                        <i data-lucide="building" class="w-3.5 h-3.5"></i>
+                        <span>Managing Organizations</span>
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-900">Gram Panchayat / RWA</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        For Village Panchayats, Municipal Wards, Gated Societies, or Waste Management Contractors.
+                    </p>
+
+                    <div class="pt-2">
+                        <div class="flex items-baseline space-x-1">
+                            <span class="text-4xl font-black text-emerald-700">₹5</span>
+                            <span class="text-xs font-bold text-slate-600">/ household / month</span>
+                        </div>
+                        <span class="block text-[11px] text-slate-500 font-semibold mt-1">
+                            *Minimum billing floor: ₹500 / month (covers up to 100 households)
+                        </span>
+                    </div>
+
+                    <ul class="text-xs text-slate-600 space-y-2 pt-4 border-t border-slate-100">
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Full Village Manager control tower</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Unlimited Waste Collector mobile scanners</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Batch cryptographic QR generator</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Daily ward-by-ward analytics & CSV export</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>3-Stream segregation index ranking</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <a href="{% url 'contact' %}" class="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs text-center shadow-lg shadow-emerald-600/25 transition-all">
+                    Enquire for Your Panchayat
+                </a>
+            </div>
+
+            <!-- Tier 3: Block / District Enterprise -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-6">
+                <div class="space-y-4">
+                    <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider">
+                        <i data-lucide="landmark" class="w-3.5 h-3.5"></i>
+                        <span>District Level</span>
+                    </div>
+                    <h3 class="text-2xl font-black text-slate-900">Zilla / Block Federation</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        For District Administrations overseeing 10+ Gram Panchayats or entire municipal corporations.
+                    </p>
+
+                    <div class="pt-2">
+                        <span class="text-4xl font-black text-slate-900">Custom</span>
+                        <span class="text-xs font-bold text-slate-500">/ Block Tier</span>
+                    </div>
+
+                    <ul class="text-xs text-slate-600 space-y-2 pt-4 border-t border-slate-100">
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Multi-panchayat Super Admin console</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>State sanitation portal API integrations</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Dedicated training for village managers</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+                            <span>Custom SLA & priority field support</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <a href="{% url 'contact' %}" class="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs text-center transition-colors">
+                    Request District Briefing
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Frequently Asked Questions -->
+<section class="py-20 bg-white border-b border-slate-200/70">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center space-y-3">
+            <h2 class="text-xs uppercase font-extrabold tracking-widest text-emerald-600">
+                Clarity on Billing
+            </h2>
+            <p class="text-3xl font-black text-slate-900">
+                Frequently Asked Pricing Questions
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <h4 class="text-base font-bold text-slate-900">Why are households not charged directly?</h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Charging households directly creates friction, requires payment gateway transaction fees, and reduces citizen participation. By charging the managing organization (Gram Panchayat or RWA), the service remains 100% free for residents, ensuring 100% community adoption.
+                </p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <h4 class="text-base font-bold text-slate-900">What is the ₹500 minimum floor?</h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    The minimum floor covers server hosting, database maintenance, and continuous updates. It includes up to 100 households (₹5 × 100 = ₹500). If a village has 60 households, the charge is ₹500. If a village has 300 households, the charge is ₹1,500.
+                </p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <h4 class="text-base font-bold text-slate-900">How do Gram Panchayats fund GreenPath?</h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Under the 15th Central Finance Commission (XV-FC) tied grants and the Swachh Bharat Mission (Grameen) Phase-II guidelines, Gram Panchayats have allocated budgets specifically for solid waste management monitoring, digital surveillance, and sanitation audits. GreenPath falls cleanly within sanctioned O&M expenditure limits.
+                </p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <h4 class="text-base font-bold text-slate-900">Are there any hidden hardware setup costs?</h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Zero hardware costs! Waste collectors use their existing Android phones via our web app. Household QR tags are printed in-house using any standard office printer onto weatherproof sticker paper or cardstock.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-16 bg-emerald-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 text-center space-y-6">
+        <h2 class="text-3xl font-black">Ready to Calculate Your Panchayat's Setup?</h2>
+        <p class="text-emerald-100 text-sm max-w-xl mx-auto">
+            Contact our civic implementation team at <strong class="text-white">contact@greenpath.com</strong> or fill out our quick inquiry form.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+            <a href="{% url 'contact' %}" class="px-6 py-3 rounded-xl bg-white text-slate-900 font-bold text-sm shadow-md transition-all">
+                Submit Inquiry Form
+            </a>
+            <a href="mailto:contact@greenpath.com" class="px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm border border-emerald-400/40 transition-all">
+                Email: contact@greenpath.com
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.getElementById('hh-slider');
+        const input = document.getElementById('hh-input');
+        const calcMonthly = document.getElementById('calc-monthly');
+        const calcAnnual = document.getElementById('calc-annual');
+        const calcPerDay = document.getElementById('calc-per-day');
+        const calcFloorBadge = document.getElementById('calc-floor-badge');
+
+        function updatePricing(val) {
+            let hh = parseInt(val, 10);
+            if (isNaN(hh) || hh < 1) hh = 1;
+
+            slider.value = Math.min(hh, 5000);
+            input.value = hh;
+
+            // Base rate: ₹5 / household with min of 500
+            const total = Math.max(500, hh * 5);
+            const annual = total * 12;
+            const perDay = (total / (hh * 30)).toFixed(2);
+
+            calcMonthly.textContent = '₹' + total.toLocaleString('en-IN');
+            calcAnnual.textContent = '₹' + annual.toLocaleString('en-IN');
+            calcPerDay.textContent = '₹' + perDay;
+
+            if (hh * 5 < 500) {
+                calcFloorBadge.textContent = 'Applied minimum billing floor (covers up to 100 households)';
+            } else {
+                calcFloorBadge.textContent = `Standard rate: ₹5 × ${hh.toLocaleString('en-IN')} households`;
+            }
+        }
+
+        if (slider && input) {
+            slider.addEventListener('input', (e) => updatePricing(e.target.value));
+            input.addEventListener('input', (e) => updatePricing(e.target.value));
+            updatePricing(400);
+        }
+    });
+</script>
+{% endblock %}

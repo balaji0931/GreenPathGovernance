@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us | GreenPath Waste Governance Inquiries{% endblock %}
+
+{% block content %}
+<!-- Contact Hero -->
+<section class="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900 to-emerald-950 text-white pt-16 pb-20 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center space-y-5">
+            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-500/30">
+                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                <span>Civic Inquiries Desk</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl font-black tracking-tight leading-tight">
+                Connect with GreenPath.
+            </h1>
+
+            <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                Whether you represent a Gram Panchayat, Municipal Ward, Residential Society, or CSR Foundation, our onboarding team is here to assist your deployment.
+            </p>
+
+            <!-- Prominent Email Callout -->
+            <div class="pt-2">
+                <div class="inline-flex items-center space-x-3 px-5 py-2.5 rounded-2xl bg-slate-800/90 border border-slate-700 text-sm">
+                    <span class="text-slate-400">Official Communication:</span>
+                    <a href="mailto:contact@greenpath.com" class="font-mono font-bold text-emerald-400 hover:text-emerald-300 transition-colors">
+                        contact@greenpath.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Contact Section: Form & Info Cards -->
+<section class="py-16 sm:py-24 bg-slate-50 border-b border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            <!-- Left Column: Contact Form -->
+            <div class="lg:col-span-7 bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <div class="space-y-1">
+                    <h2 class="text-2xl font-black text-slate-900 tracking-tight">
+                        Send a Message or Pilot Request
+                    </h2>
+                    <p class="text-xs text-slate-500">
+                        Fill out your organization details below and our team will get in touch within 24 hours.
+                    </p>
+                </div>
+
+                <form method="POST" action="{% url 'contact' %}" class="space-y-4">
+                    {% csrf_token %}
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label for="name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                Your Full Name <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="name" name="name" required placeholder="e.g. Ramesh Patil"
+                                value="{{ form_data.name|default:'' }}"
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm placeholder-slate-400 transition-colors">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label for="org_name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                Organization / Panchayat / RWA <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="org_name" name="org_name" required placeholder="e.g. Shivaji Gram Panchayat"
+                                value="{{ form_data.org_name|default:'' }}"
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm placeholder-slate-400 transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                Work / Official Email <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="email" id="email" name="email" required placeholder="name@panchayat.gov.in"
+                                value="{{ form_data.email|default:'' }}"
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm placeholder-slate-400 transition-colors">
+                        </div>
+
+                        <div class="space-y-1">
+                            <label for="phone" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                Contact Phone Number
+                            </label>
+                            <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210"
+                                value="{{ form_data.phone|default:'' }}"
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm placeholder-slate-400 transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label for="households" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                            Estimated Households Managed (Approx.)
+                        </label>
+                        <select id="households" name="households"
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm text-slate-700 transition-colors">
+                            <option value="50-100">Up to 100 Households (Base ₹500/mo)</option>
+                            <option value="100-500" selected>100 to 500 Households</option>
+                            <option value="500-1500">500 to 1,500 Households</option>
+                            <option value="1500-3000">1,500 to 3,000 Households</option>
+                            <option value="3000+">3,000+ Multi-Ward / Block Level</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label for="message" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                            Message / Specific Requirements
+                        </label>
+                        <textarea id="message" name="message" rows="4" placeholder="Tell us about your current waste collection setup or questions about deployment..."
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm placeholder-slate-400 transition-colors">{{ form_data.message|default:'' }}</textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-sm shadow-md shadow-emerald-600/20 transition-all flex items-center justify-center space-x-2">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                        <span>Submit Inquiry</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Column: Official Contact Channels & Details -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Email Highlight Card -->
+                <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                    </div>
+
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block">Direct Inquiries</span>
+                        <h3 class="text-lg font-black text-slate-900 mt-0.5">contact@greenpath.com</h3>
+                        <p class="text-xs text-slate-500 mt-1">
+                            Reach our primary communications desk. All emails are answered within 24 business hours.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center space-x-2 pt-2">
+                        <a href="mailto:contact@greenpath.com" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center space-x-1.5 transition-colors">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                            <span>Write Email</span>
+                        </a>
+                        <button type="button" id="copy-email-btn" onclick="navigator.clipboard.writeText('contact@greenpath.com'); alert('Email address copied to clipboard: contact@greenpath.com');"
+                            class="px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center space-x-1.5 transition-colors">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span>Copy Address</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- B2B Pricing Reminder Card -->
+                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-7 rounded-3xl border border-emerald-200/80 space-y-3">
+                    <div class="flex items-center space-x-2 text-emerald-800 font-black text-sm">
+                        <i data-lucide="tag" class="w-4 h-4"></i>
+                        <span>Institutional Pricing Terms</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        • <strong>Direct households pay ₹0.</strong> Zero citizen subscription fees.<br>
+                        • Managing Organization rate: <strong>₹5 / household / month</strong>.<br>
+                        • Minimum billing floor: <strong>₹500 / month</strong> (covers up to 100 households).<br>
+                        • 100% compliant with 15th Finance Commission & Swachh Bharat grants.
+                    </p>
+                    <a href="{% url 'pricing' %}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 underline inline-block pt-1">
+                        Open interactive pricing calculator &rarr;
+                    </a>
+                </div>
+
+                <!-- Operating Hubs Card -->
+                <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Deployment Hubs</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs text-slate-600">
+                        <div>
+                            <div class="font-bold text-slate-900">Technology & Product Center</div>
+                            <div class="text-slate-500">Bangalore, Karnataka, India</div>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900">Civic Governance & Pilot Liaison</div>
+                            <div class="text-slate-500">New Delhi, India</div>
+                        </div>
+                        <div class="pt-2 border-t border-slate-100 flex items-center space-x-2 text-slate-500">
+                            <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
+                            <span>Support Desk: Mon - Sat (9:00 AM - 6:00 PM IST)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

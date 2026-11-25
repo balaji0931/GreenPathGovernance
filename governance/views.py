@@ -58,7 +58,7 @@ def village_create_view(request):
         form = VillageForm(request.POST)
         if form.is_valid():
             village = form.save()
-            messages.success(request, f"Gram Panchayat '{village.name}' ({village.code}) successfully created.")
+            messages.success(request, f"Gram Panchayat '{village.name}' ({village.code}) successfully created with ID '{village.code}'.")
             return redirect('village_detail', village_id=village.id)
         else:
             messages.error(request, "Failed to create village. Please correct the errors below.")
@@ -120,9 +120,10 @@ def manager_create_view(request):
         if form.is_valid():
             user = form.save()
             village_name = user.profile.village.name if (user.profile and user.profile.village) else "assigned village"
+            raw_pwd = getattr(user, '_raw_password', 'Manager123@')
             messages.success(
                 request,
-                f"Village Manager account '{user.username}' successfully provisioned for {village_name}."
+                f"Village Manager account created! ID: '{user.username}', Password: '{raw_pwd}' for {village_name}."
             )
             return redirect('superadmin_dashboard')
         else:

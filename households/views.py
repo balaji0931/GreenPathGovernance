@@ -97,9 +97,10 @@ def household_create_view(request):
         form = HouseholdRegistrationForm(request.POST, village=village)
         if form.is_valid():
             household = form.save()
+            pwd_msg = f", Resident Login ID: '{household.uid}' (Password: {getattr(household, '_resident_password', 'Resident123@')})" if household.resident_user else ""
             messages.success(
                 request,
-                f"Household for {household.head_name} (#{household.house_number}) registered successfully with UID '{household.uid}'."
+                f"Household for {household.head_name} (#{household.house_number}) registered successfully with ID '{household.uid}'{pwd_msg}."
             )
             return redirect('household_qr_card', household_id=household.id)
         else:
@@ -196,7 +197,8 @@ def collector_list_create_view(request):
         form = WasteCollectorCreateForm(request.POST)
         if form.is_valid():
             user = form.save(village=village)
-            messages.success(request, f"Waste Collector account '{user.username}' created successfully.")
+            raw_pwd = getattr(user, '_raw_password', 'Collector123@')
+            messages.success(request, f"Waste Collector created! ID: '{user.username}', Password: '{raw_pwd}'.")
             return redirect('collector_manage')
         else:
             messages.error(request, "Failed to create collector. Please verify inputs.")

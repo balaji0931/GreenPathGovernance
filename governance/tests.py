@@ -120,6 +120,32 @@ class GovernancePhase2Tests(TestCase):
         self.assertEqual(new_mgr.profile.role, RoleChoices.VILLAGE_MANAGER)
         self.assertEqual(new_mgr.profile.village, self.village)
 
+    def test_village_creation_auto_generates_code(self):
+        """Verify village code is auto-assigned as V001, V002 if not provided."""
+        self.client.login(username="superadmin", password="adminpassword123")
+        response = self.client.post(reverse('village_create'), {
+            'name': 'Auto Village 1',
+            'district': 'Pune',
+            'state': 'Maharashtra',
+            'is_active': True,
+        })
+        self.assertEqual(response.status_code, 302)
+        v = Village.objects.get(name='Auto Village 1')
+        self.assertEqual(v.code, 'V001')
+
+    def test_manager_creation_auto_generates_username(self):
+        """Verify manager username is auto-assigned as V001-M1 for village V001."""
+        self.client.login(username="superadmin", password="adminpassword123")
+        v = Village.objects.create(code="V001", name="Shivaji GP")
+        response = self.client.post(reverse('manager_create'), {
+            'first_name': 'Ramesh',
+            'last_name': 'Patil',
+            'village': v.id,
+        })
+        self.assertEqual(response.status_code, 302)
+        mgr = User.objects.get(username='V001-M1')
+        self.assertEqual(mgr.profile.village, v)
+
     def test_non_superadmin_forbidden_from_governance(self):
         """FR-13: Non-Super Admin accounts must receive HTTP 403 on governance views."""
         # 1. Test with Village Manager

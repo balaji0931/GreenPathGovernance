@@ -63,18 +63,20 @@
                     </div>
                 </div>
 
-                <div class="space-y-1">
-                    <label for="{{ form.username.id_for_label }}" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                        Collector Username <span class="text-rose-500">*</span>
-                    </label>
-                    {{ form.username }}
+                <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200/80">
+                    <span class="block text-xs font-bold text-amber-950 uppercase tracking-wider">Collector ID</span>
+                    <span class="text-xs text-amber-700 block mt-0.5">Auto-assigned for {{ village.name }} (e.g. {{ village.code }}-C1, {{ village.code }}-C2)</span>
+                    <span class="inline-block mt-2 px-2.5 py-1 rounded-lg bg-white border border-amber-200 text-amber-800 font-mono font-bold text-xs">
+                        Auto: {{ village.code }}-C1...
+                    </span>
                 </div>
 
                 <div class="space-y-1">
                     <label for="{{ form.password.id_for_label }}" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                        Initial Password <span class="text-rose-500">*</span>
+                        Initial Password
                     </label>
                     {{ form.password }}
+                    <p class="text-[11px] text-slate-400">Leave blank to automatically use default (Collector123@)</p>
                 </div>
 
                 <div class="space-y-1">

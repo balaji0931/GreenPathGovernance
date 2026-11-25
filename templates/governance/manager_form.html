@@ -57,22 +57,21 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="space-y-1">
-                    <label for="{{ form.username.id_for_label }}" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                        Username <span class="text-rose-500">*</span>
-                    </label>
-                    {{ form.username }}
-                    {% if form.username.errors %}
-                        <p class="text-xs text-rose-600 mt-1">{{ form.username.errors.0 }}</p>
-                    {% endif %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                <div class="p-4 rounded-2xl bg-purple-50 border border-purple-200/80">
+                    <span class="block text-xs font-bold text-purple-950 uppercase tracking-wider">Manager ID</span>
+                    <span class="text-xs text-purple-700 block mt-0.5">Auto-assigned on creation (e.g. V001-M1, V001-M2)</span>
+                    <span class="inline-block mt-2 px-2.5 py-1 rounded-lg bg-white border border-purple-200 text-purple-800 font-mono font-bold text-xs">
+                        Auto: &lt;VillageID&gt;-M1...
+                    </span>
                 </div>
 
                 <div class="space-y-1">
                     <label for="{{ form.password.id_for_label }}" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                        Initial Password <span class="text-rose-500">*</span>
+                        Initial Password
                     </label>
                     {{ form.password }}
+                    <p class="text-[11px] text-slate-400">Leave blank to automatically use default (Manager123@)</p>
                     {% if form.password.errors %}
                         <p class="text-xs text-rose-600 mt-1">{{ form.password.errors.0 }}</p>
                     {% endif %}

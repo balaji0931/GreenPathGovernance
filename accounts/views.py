@@ -105,7 +105,12 @@ def api_login(request):
     if not username or not password:
         return JsonResponse({'success': False, 'error': 'Both username and password are required.'}, status=400)
 
-    user = authenticate(request, username=username, password=password)
+    # Case-insensitive lookup (e.g. ADMIN vs admin)
+    from django.contrib.auth.models import User
+    user_obj = User.objects.filter(username__iexact=username).first()
+    actual_username = user_obj.username if user_obj else username
+
+    user = authenticate(request, username=actual_username, password=password)
     if user is not None:
         if not user.is_active:
             return JsonResponse({'success': False, 'error': 'Account is inactive.'}, status=403)

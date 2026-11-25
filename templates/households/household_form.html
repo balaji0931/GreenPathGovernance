@@ -106,21 +106,20 @@
                 </div>
                 <p class="text-[11px] text-slate-500">Allows the family to view their daily collection status, scan history, and reprint their QR code.</p>
 
-                <div id="account_fields" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                    <div class="space-y-1">
-                        <label for="{{ form.resident_username.id_for_label }}" class="block text-xs font-semibold text-slate-700">
-                            Resident Username
-                        </label>
-                        {{ form.resident_username }}
-                        {% if form.resident_username.errors %}
-                            <p class="text-xs text-rose-600 mt-1">{{ form.resident_username.errors.0 }}</p>
-                        {% endif %}
+                <div id="account_fields" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 items-center">
+                    <div class="p-3.5 rounded-xl bg-emerald-100/60 border border-emerald-200">
+                        <span class="block text-xs font-bold text-emerald-950 uppercase tracking-wider">Resident Login ID</span>
+                        <span class="text-[11px] text-emerald-700 block mt-0.5">Auto-matches Household ID (e.g. {{ village.code }}-H1, {{ village.code }}-H2)</span>
+                        <span class="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-white border border-emerald-300 text-emerald-800 font-mono font-bold text-xs">
+                            Auto: {{ village.code }}-H1...
+                        </span>
                     </div>
                     <div class="space-y-1">
                         <label for="{{ form.resident_password.id_for_label }}" class="block text-xs font-semibold text-slate-700">
                             Resident Initial Password
                         </label>
                         {{ form.resident_password }}
+                        <p class="text-[11px] text-slate-400">Leave blank to use default (Resident123@)</p>
                         {% if form.resident_password.errors %}
                             <p class="text-xs text-rose-600 mt-1">{{ form.resident_password.errors.0 }}</p>
                         {% endif %}

@@ -20,6 +20,77 @@ class CorePublicPagesTests(TestCase):
         self.assertContains(response, 'GreenPath')
         self.assertContains(response, 'Door-to-Door')
         self.assertContains(response, 'Waste Segregation Guide')
+        self.assertContains(response, '₹5 / household')
+
+    def test_product_page_renders_successfully(self):
+        """Verify product showcase renders architecture modules and features."""
+        response = self.client.get(reverse('product'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'base.html')
+        self.assertTemplateUsed(response, 'core/product.html')
+        self.assertContains(response, 'Batch Cryptographic Doorstep QR Engine')
+        self.assertContains(response, 'Zero-Hardware Mobile Collector Web PWA')
+        self.assertContains(response, '3-Way Segregation Auditing')
+
+    def test_about_page_renders_successfully(self):
+        """Verify about page renders mission, civic governance values, and stack."""
+        response = self.client.get(reverse('about'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'base.html')
+        self.assertTemplateUsed(response, 'core/about.html')
+        self.assertContains(response, 'Our Civic Purpose')
+        self.assertContains(response, 'Privacy by Design')
+        self.assertContains(response, 'contact@greenpath.com')
+
+    def test_pricing_page_renders_successfully(self):
+        """Verify pricing page accurately reflects ₹0 for households and ₹5/HH with min ₹500 for orgs."""
+        response = self.client.get(reverse('pricing'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'base.html')
+        self.assertTemplateUsed(response, 'core/pricing.html')
+        self.assertContains(response, 'Direct Households Pay ₹0')
+        self.assertContains(response, '₹5')
+        self.assertContains(response, '₹500')
+        self.assertContains(response, 'contact@greenpath.com')
+
+    def test_contact_page_renders_and_post_submits(self):
+        """Verify contact page renders official contact@greenpath.com and accepts inquiry submissions."""
+        # GET
+        response = self.client.get(reverse('contact'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'base.html')
+        self.assertTemplateUsed(response, 'core/contact.html')
+        self.assertContains(response, 'contact@greenpath.com')
+
+        # POST valid
+        post_response = self.client.post(reverse('contact'), {
+            'name': 'Sarpanch Ramesh',
+            'org_name': 'Shivaji Gram Panchayat',
+            'email': 'sarpanch@shivajigp.org',
+            'phone': '9876543210',
+            'households': '500-1500',
+            'message': 'We want to deploy GreenPath across all 4 wards.'
+        }, follow=True)
+        self.assertEqual(post_response.status_code, 200)
+        self.assertContains(post_response, 'Thank you, Sarpanch Ramesh!')
+
+    def test_no_signup_buttons_on_public_pages(self):
+        """Verify strict rule: no signup button or signup link anywhere on public pages."""
+        public_urls = [
+            reverse('landing'),
+            reverse('product'),
+            reverse('about'),
+            reverse('pricing'),
+            reverse('contact'),
+            reverse('login'),
+        ]
+        for url in public_urls:
+            res = self.client.get(url)
+            self.assertEqual(res.status_code, 200)
+            content = res.content.decode('utf-8')
+            # Check that there is no button or link saying Sign Up / Create Account / Register
+            self.assertNotRegex(content, r'>\s*Sign\s*Up\s*<', f"Found 'Sign Up' text on {url}")
+            self.assertNotRegex(content, r'>\s*Create\s*(an)?\s*Account\s*<', f"Found 'Create Account' on {url}")
 
     def test_segregation_guide_renders_successfully(self):
         """Scope: Verify educational segregation advisory renders 3 streams and ratings."""
@@ -63,19 +134,29 @@ class CorePublicPagesTests(TestCase):
         self.assertEqual(res500.status_code, 500)
         self.assertIn(b"System Unavailable", res500.content)
 
-    def test_seed_data_command(self):
-        """Phase 6: Verify seed_data command runs cleanly and provisions complete environment."""
+    def test_admin_and_auto_assigned_ids_convention(self):
+        """Verify ADMIN user, auto village ID (V001), manager ID (V001-M1), collector ID (V001-C1), household ID (V001-H1)."""
         call_command('seed_data')
 
-        # Assert Super Admin created
-        self.assertTrue(User.objects.filter(username="superadmin").exists())
+        # Check ADMIN login
+        login_success = self.client.login(username="ADMIN", password="Admin123@")
+        self.assertTrue(login_success, "ADMIN user should log in with Admin123@")
 
-        # Assert Villages created
-        self.assertTrue(Village.objects.filter(code="VIL-SHIVAJI-01").exists())
-        self.assertTrue(Village.objects.filter(code="VIL-GANESH-02").exists())
+        # Check village V001
+        vil = Village.objects.filter(code="V001").first()
+        self.assertIsNotNone(vil, "Village V001 should exist")
 
-        # Assert Households created
-        self.assertGreaterEqual(Household.objects.count(), 15)
+        # Check manager V001-M1
+        mgr = User.objects.filter(username="V001-M1").first()
+        self.assertIsNotNone(mgr, "Manager V001-M1 should exist")
+        self.assertTrue(self.client.login(username="V001-M1", password="Manager123@"))
 
-        # Assert Collection Records created
-        self.assertGreaterEqual(CollectionRecord.objects.count(), 5)
+        # Check collector V001-C1
+        col = User.objects.filter(username="V001-C1").first()
+        self.assertIsNotNone(col, "Collector V001-C1 should exist")
+        self.assertTrue(self.client.login(username="V001-C1", password="Collector123@"))
+
+        # Check household V001-H1
+        hh = Household.objects.filter(uid="V001-H1").first()
+        self.assertIsNotNone(hh, "Household V001-H1 should exist")
+        self.assertTrue(self.client.login(username="V001-H1", password="Resident123@"))

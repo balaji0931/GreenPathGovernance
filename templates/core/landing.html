@@ -1,113 +1,175 @@
 {% extends 'base.html' %}
 
-{% block title %}GreenPath | Modern Smart Village Waste Governance{% endblock %}
+{% block title %}GreenPath | Smart Door-to-Door Solid Waste Governance{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="relative overflow-hidden bg-gradient-to-b from-emerald-50/70 via-white to-slate-50 pt-16 pb-20 lg:pt-24 lg:pb-32 border-b border-slate-200/60">
-    <!-- Background blur spots -->
-    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-emerald-200/40 to-teal-200/30 blur-3xl -z-10 rounded-full pointer-events-none"></div>
+<section class="relative overflow-hidden bg-gradient-to-b from-emerald-50/60 via-white to-slate-50 pt-16 pb-20 lg:pt-24 lg:pb-32 border-b border-slate-200/70">
+    <!-- Ambient Blur Glows -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[380px] bg-gradient-to-tr from-emerald-300/30 to-teal-200/25 blur-3xl -z-10 rounded-full pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
-            <!-- Left Column: Copy & Actions -->
+            <!-- Left Hero Content -->
             <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-100/80 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider shadow-sm">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
-                    <span>Gram Panchayat Digital Governance</span>
+                <!-- Badges -->
+                <div class="inline-flex flex-wrap items-center gap-2">
+                    <span class="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-emerald-100/90 border border-emerald-200/80 text-emerald-800 text-xs font-black uppercase tracking-wider shadow-xs">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Gram Panchayat & Municipal CivicTech</span>
+                    </span>
+                    <span class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold tracking-tight">
+                        <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-500"></i>
+                        <span>Zero Resident PII On Hardware</span>
+                    </span>
                 </div>
 
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
-                    Accountable <span class="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Door-to-Door</span> Waste Governance.
+                <!-- Main Title -->
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-[1.12]">
+                    Next-Generation <span class="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 bg-clip-text text-transparent">Door-to-Door</span> Waste Governance.
                 </h1>
 
+                <!-- Subtitle -->
                 <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
-                    Transform village solid waste management with household QR-tagging, doorstep segregation ratings, instant collector validation, and real-time ward coverage reports.
+                    Transform grassroots sanitation monitoring with tamper-proof household QR tags, smartphone camera doorstep scanning, 3-stream segregation audits, and real-time ward coverage intelligence.
                 </p>
 
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                    <a href="{% url 'login' %}" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-base shadow-lg shadow-emerald-600/25 transition-all transform active:scale-95">
-                        <i data-lucide="log-in" class="w-5 h-5"></i>
-                        <span>Enter Staff & Citizen Portal</span>
+                <!-- Action CTAs: STRICTLY LOGIN & PRICING, NO SIGNUP -->
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
+                    <a href="{% url 'login' %}" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-lg shadow-slate-900/20 active:scale-95 transition-all">
+                        <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i>
+                        <span>Staff & Resident Login</span>
                     </a>
-                    <a href="{% url 'segregation_guide' %}" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-base border border-slate-200 shadow-sm transition-all">
-                        <i data-lucide="book-open" class="w-5 h-5 text-emerald-600"></i>
-                        <span>Waste Segregation Guide</span>
+                    <a href="{% url 'pricing' %}" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-emerald-700 font-bold text-sm border border-emerald-300/80 shadow-xs hover:border-emerald-500 transition-all">
+                        <i data-lucide="tag" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Explore B2B Pricing (₹5 / HH)</span>
+                    </a>
+                    <a href="{% url 'product' %}" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-3.5 rounded-xl text-slate-600 hover:text-slate-900 font-semibold text-sm transition-colors">
+                        <span>See Product</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
                 </div>
 
-                <!-- Trust Points -->
-                <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200/80 text-left">
+                <!-- B2B Pricing Highlight Banner -->
+                <div class="p-3.5 rounded-2xl bg-white/90 border border-emerald-200/80 shadow-xs max-w-xl text-left">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 font-black text-sm">
+                            ₹0
+                        </div>
+                        <div class="text-xs">
+                            <span class="font-extrabold text-slate-900">Zero Direct Cost to Households.</span>
+                            <span class="text-slate-600 ml-1">
+                                Residents are never billed. The governing organization (Panchayat or RWA) is charged just <strong class="text-emerald-700 font-extrabold">₹5 / household managed</strong> (min ₹500/month).
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trust Metric Counters -->
+                <div class="pt-4 grid grid-cols-3 gap-4 border-t border-slate-200/80 text-left">
                     <div>
-                        <div class="text-2xl font-black text-slate-900">100%</div>
+                        <div class="text-2xl sm:text-3xl font-black text-slate-900">100%</div>
                         <div class="text-xs text-slate-500 font-medium">Ward Transparency</div>
                     </div>
                     <div>
-                        <div class="text-2xl font-black text-emerald-600">QR-Verified</div>
-                        <div class="text-xs text-slate-500 font-medium">Doorstep Validation</div>
+                        <div class="text-2xl sm:text-3xl font-black text-emerald-600">QR-Verified</div>
+                        <div class="text-xs text-slate-500 font-medium">Doorstep Auditing</div>
                     </div>
                     <div>
-                        <div class="text-2xl font-black text-slate-900">1 to 5★</div>
-                        <div class="text-xs text-slate-500 font-medium">Segregation Auditing</div>
+                        <div class="text-2xl sm:text-3xl font-black text-amber-500">3-Stream</div>
+                        <div class="text-xs text-slate-500 font-medium">Segregation Rating</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Column: Interactive Card Preview -->
+            <!-- Right Hero Card: Live Interactive UI Simulation -->
             <div class="lg:col-span-5">
-                <div class="relative mx-auto max-w-md bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-200/80 p-6 space-y-5">
+                <div class="relative mx-auto max-w-md bg-white rounded-3xl shadow-2xl shadow-emerald-950/10 border border-slate-200/90 p-6 space-y-5">
+                    
+                    <!-- Live Card Header -->
                     <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                         <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                            <div class="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-sm shadow-sm">
                                 GP
                             </div>
                             <div>
                                 <h3 class="font-bold text-slate-900 text-sm">Shivaji Gram Panchayat</h3>
-                                <p class="text-xs text-slate-500">Live Ward Collection Metrics</p>
+                                <p class="text-xs text-slate-400">Live Ward Daily Audit Feed</p>
                             </div>
                         </div>
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
-                            Live Today
+                        <span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                            <span>Live Today</span>
                         </span>
                     </div>
 
-                    <!-- Progress Bar Component -->
-                    <div class="space-y-2">
-                        <div class="flex justify-between text-xs font-semibold">
-                            <span class="text-slate-600">Daily Ward Coverage</span>
-                            <span class="text-emerald-700 font-bold">88.5%</span>
+                    <!-- Ward Progress Bar -->
+                    <div class="space-y-2 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <div class="flex justify-between items-baseline text-xs font-bold">
+                            <span class="text-slate-700">Ward 01 Doorstep Coverage</span>
+                            <span class="text-emerald-700 font-black text-sm">92.4%</span>
                         </div>
-                        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
-                            <div class="bg-gradient-to-r from-emerald-500 to-teal-500 h-2.5 rounded-full" style="width: 88.5%"></div>
+                        <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+                            <div class="bg-gradient-to-r from-emerald-500 to-teal-500 h-2.5 rounded-full transition-all duration-1000" style="width: 92.4%"></div>
+                        </div>
+                        <div class="flex justify-between text-[11px] text-slate-500 pt-0.5">
+                            <span>257 of 278 Gates Scanned</span>
+                            <span class="text-emerald-700 font-semibold">21 Remaining</span>
                         </div>
                     </div>
 
                     <!-- Mini Stat Tiles -->
-                    <div class="grid grid-cols-2 gap-3 pt-1">
-                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <span class="text-xs text-slate-500 block">Collected Visits</span>
-                            <span class="text-xl font-bold text-slate-900 mt-0.5 block">246 / 278</span>
-                            <span class="text-[10px] text-emerald-600 font-medium">Active Households</span>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Segregation Index</span>
+                            <div class="text-xl font-black text-slate-900 mt-1 flex items-center">
+                                <span>4.7</span>
+                                <div class="flex text-amber-400 ml-1.5 text-xs">
+                                    <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                                    <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-emerald-600 font-semibold">High Wet/Dry Compliance</span>
                         </div>
-                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                            <span class="text-xs text-slate-500 block">Segregation Index</span>
-                            <span class="text-xl font-bold text-amber-500 mt-0.5 block flex items-center">
-                                4.6 <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400 ml-1"></i>
-                            </span>
-                            <span class="text-[10px] text-slate-500 font-medium">Wet / Dry / Sanitary</span>
+
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Active Collectors</span>
+                            <div class="text-xl font-black text-slate-900 mt-1 flex items-center">
+                                <span>3 Field Staff</span>
+                            </div>
+                            <span class="text-[10px] text-slate-500 font-medium">On-Duty with Web PWA</span>
                         </div>
                     </div>
 
-                    <!-- QR Sample Mock -->
-                    <div class="flex items-center space-x-3.5 p-3 rounded-xl bg-emerald-50/60 border border-emerald-100">
-                        <div class="w-12 h-12 bg-white rounded-lg p-1 border border-emerald-200 flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="qr-code" class="w-8 h-8 text-emerald-700"></i>
+                    <!-- Simulated Doorstep QR Scan Interaction -->
+                    <div class="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200/80 space-y-2">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-white rounded-xl p-1.5 border border-emerald-300/80 flex items-center justify-center flex-shrink-0 shadow-xs">
+                                <i data-lucide="qr-code" class="w-8 h-8 text-emerald-700"></i>
+                            </div>
+                            <div class="text-xs">
+                                <div class="flex items-center space-x-1.5">
+                                    <span class="font-mono font-bold text-slate-900">HH-VILSHI-W01-0024</span>
+                                    <span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-200 text-emerald-900">VERIFIED</span>
+                                </div>
+                                <div class="text-slate-500 text-[11px] mt-0.5">Doorstep scanned 07:42 AM by Collector @ramesh</div>
+                            </div>
                         </div>
-                        <div class="text-xs">
-                            <div class="font-bold text-slate-800">QR Doorstep Authentication</div>
-                            <div class="text-slate-500 text-[11px] mt-0.5">Scanned securely at resident gates without paper sheets.</div>
+                        <div class="flex items-center gap-1.5 pt-1 text-[10px] font-semibold text-emerald-900">
+                            <span class="px-2 py-0.5 rounded-md bg-emerald-100 border border-emerald-200">Wet Waste: ✓</span>
+                            <span class="px-2 py-0.5 rounded-md bg-emerald-100 border border-emerald-200">Dry Waste: ✓</span>
+                            <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200">Sanitary: -</span>
                         </div>
+                    </div>
+
+                    <!-- Micro Institutional Footnote -->
+                    <div class="text-center pt-1">
+                        <span class="text-[11px] text-slate-400 font-medium">
+                            Hardware-Free Architecture • Zero Specialized Handheld Devices
+                        </span>
                     </div>
                 </div>
             </div>
@@ -116,126 +178,338 @@
     </div>
 </section>
 
-<!-- Governance Roles Grid -->
-<section class="py-16 sm:py-24 bg-white">
+<!-- Why GreenPath: Problem & Solution Bento Grid -->
+<section class="py-20 sm:py-28 bg-white border-b border-slate-200/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <h2 class="text-xs uppercase font-bold tracking-widest text-emerald-600">Separation of Responsibilities</h2>
-            <p class="text-3xl sm:text-4xl font-extrabold text-slate-900">Engineered for Four Operational Roles</p>
-            <p class="text-base text-slate-600">Strict village-level boundaries and role-based permissions ensure privacy, transparency, and data integrity.</p>
+            <h2 class="text-xs uppercase font-extrabold tracking-widest text-emerald-600">
+                Institutional Reliability
+            </h2>
+            <p class="text-3xl sm:text-4xl font-black text-slate-900">
+                Solving the Four Failures of Traditional Waste Management
+            </p>
+            <p class="text-base text-slate-600">
+                Paper tick-sheets, unverified attendance, and mixed trash dump yards lead to wasted municipal budgets. GreenPath solves this with end-to-end digital governance.
+            </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Super Admin -->
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:shadow-lg transition-all space-y-4">
-                <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
-                    <i data-lucide="landmark" class="w-6 h-6"></i>
+            <!-- Pillar 1 -->
+            <div class="p-7 rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-900/5 transition-all duration-300 space-y-4">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                    <i data-lucide="qr-code" class="w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-bold text-slate-900">1. Super Admin</h3>
+                <h3 class="text-lg font-bold text-slate-900">Doorstep QR Tagging</h3>
                 <p class="text-xs text-slate-600 leading-relaxed">
-                    Apex system administrator. Defines Panchayats/Villages, assigns Wards, and appoints accredited Village Managers.
+                    Every household gate gets a weatherproof QR token containing an anonymous cryptographic UID. No personal phone numbers or family details are printed on the gate.
                 </p>
-                <div class="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md inline-block">
-                    System-Wide Scope
+                <div class="text-[11px] font-bold text-emerald-700 bg-emerald-100/60 px-2.5 py-1 rounded-lg inline-block">
+                    Anti-Fraud Gate Verification
                 </div>
             </div>
 
-            <!-- Village Manager -->
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:shadow-lg transition-all space-y-4">
-                <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
-                    <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+            <!-- Pillar 2 -->
+            <div class="p-7 rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-900/5 transition-all duration-300 space-y-4">
+                <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-800 flex items-center justify-center font-bold">
+                    <i data-lucide="smartphone" class="w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-bold text-slate-900">2. Village Manager</h3>
+                <h3 class="text-lg font-bold text-slate-900">Zero-Hardware PWA</h3>
                 <p class="text-xs text-slate-600 leading-relaxed">
-                    Manages household registers, provisions waste collectors, prints QR identification plates, and tracks daily ward reports.
+                    Waste collectors use their existing basic Android smartphones with our lightweight web camera scanner. No expensive barcode wands or proprietary rugged gadgets needed.
                 </p>
-                <div class="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md inline-block">
-                    Village-Bound Scope
+                <div class="text-[11px] font-bold text-teal-700 bg-teal-100/60 px-2.5 py-1 rounded-lg inline-block">
+                    Zero Deployment Capital
                 </div>
             </div>
 
-            <!-- Waste Collector -->
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:shadow-lg transition-all space-y-4">
-                <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
-                    <i data-lucide="scan" class="w-6 h-6"></i>
+            <!-- Pillar 3 -->
+            <div class="p-7 rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-900/5 transition-all duration-300 space-y-4">
+                <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+                    <i data-lucide="recycle" class="w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-bold text-slate-900">3. Waste Collector</h3>
+                <h3 class="text-lg font-bold text-slate-900">3-Stream Segregation</h3>
                 <p class="text-xs text-slate-600 leading-relaxed">
-                    Mobile doorstep web camera scanner. Scans household QR, validates boundary, and records segregation ratings or missed visit reasons.
+                    Enforces source separation: Wet (Organic), Dry (Recyclable), and Domestic Hazardous / Sanitary. The collector assigns a 1 to 5 star rating directly at the doorstep.
                 </p>
-                <div class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md inline-block">
-                    Field Operational Scope
+                <div class="text-[11px] font-bold text-amber-700 bg-amber-100/60 px-2.5 py-1 rounded-lg inline-block">
+                    Grassroots Compliance Score
                 </div>
             </div>
 
-            <!-- Household Resident -->
-            <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:shadow-lg transition-all space-y-4">
-                <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
-                    <i data-lucide="home" class="w-6 h-6"></i>
+            <!-- Pillar 4 -->
+            <div class="p-7 rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-900/5 transition-all duration-300 space-y-4">
+                <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
+                    <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
                 </div>
-                <h3 class="text-lg font-bold text-slate-900">4. Household</h3>
+                <h3 class="text-lg font-bold text-slate-900">Real-Time Ward Audits</h3>
                 <p class="text-xs text-slate-600 leading-relaxed">
-                    Resident self-service portal. Displays today's collection confirmation, downloads official QR card, and tracks historical audits.
+                    Village managers and Panchayat Pradhans review daily ward-level completion ratios, uncollected households, collector velocity, and downloadable PDF/CSV audit registers.
                 </p>
-                <div class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md inline-block">
-                    Individual Household Scope
+                <div class="text-[11px] font-bold text-blue-700 bg-blue-100/60 px-2.5 py-1 rounded-lg inline-block">
+                    Instant Civic Accountability
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- 4-Step Doorstep Workflow -->
-<section class="py-16 sm:py-24 bg-slate-50 border-t border-slate-200/70">
+<!-- Four Operational Roles Section -->
+<section class="py-20 sm:py-28 bg-slate-50 border-b border-slate-200/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
-            <h2 class="text-xs uppercase font-bold tracking-widest text-emerald-600">Audit-Proof Workflow</h2>
-            <p class="text-3xl sm:text-4xl font-extrabold text-slate-900">How the Doorstep Cycle Works</p>
-            <p class="text-sm text-slate-600">Zero paper logs. Zero duplicate tallies. Real-time digital accountability.</p>
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <h2 class="text-xs uppercase font-extrabold tracking-widest text-emerald-600">
+                Separation of Responsibilities
+            </h2>
+            <p class="text-3xl sm:text-4xl font-black text-slate-900">
+                Strict Role-Based Multi-Tier Architecture
+            </p>
+            <p class="text-base text-slate-600">
+                Each actor in the municipal waste ecosystem has an isolated workspace designed precisely for their operational mandate.
+            </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="relative bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center space-y-3">
-                <div class="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-800 font-black text-lg flex items-center justify-center">1</div>
-                <h4 class="font-bold text-slate-900 text-base">QR Generation</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">Village manager registers the household and prints a unique QR tag containing zero personal details.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- 1. Super Admin -->
+            <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
+                        <i data-lucide="landmark" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md">Tier 1</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">1. Super Admin HQ</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Apex authority for Block / District level oversight. Provisions new Gram Panchayats, configures Wards, and appoints accredited Village Managers.
+                </p>
+                <ul class="text-xs text-slate-500 space-y-1.5 pt-2 border-t border-slate-100">
+                    <li class="flex items-center space-x-1.5">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>System-wide multi-village scope</span>
+                    </li>
+                    <li class="flex items-center space-x-1.5">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Village Manager credentials</span>
+                    </li>
+                </ul>
             </div>
 
-            <div class="relative bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center space-y-3">
-                <div class="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-800 font-black text-lg flex items-center justify-center">2</div>
-                <h4 class="font-bold text-slate-900 text-base">Doorstep Scan</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">Collector points smartphone camera to scan the tag. Server verifies village boundary and active status.</p>
+            <!-- 2. Village Manager -->
+            <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+                        <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md">Tier 2</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">2. Village Manager</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Operational supervisor of the Panchayat. Registers households, prints batch QR code tags, provisions waste collectors, and exports daily governance reports.
+                </p>
+                <ul class="text-xs text-slate-500 space-y-1.5 pt-2 border-t border-slate-100">
+                    <li class="flex items-center space-x-1.5">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Household register & QR print</span>
+                    </li>
+                    <li class="flex items-center space-x-1.5">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Daily ward completion analytics</span>
+                    </li>
+                </ul>
             </div>
 
-            <div class="relative bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center space-y-3">
-                <div class="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-800 font-black text-lg flex items-center justify-center">3</div>
-                <h4 class="font-bold text-slate-900 text-base">Segregation Audit</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">Collector inputs waste types (Wet, Dry, Sanitary), gives 1-5 star rating, or marks reason if door was locked.</p>
+            <!-- 3. Waste Collector -->
+            <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+                        <i data-lucide="scan" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md">Tier 3</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">3. Waste Collector</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Field frontline worker. Uses phone camera to scan gate QR codes, automatically validating that the household belongs to their assigned Gram Panchayat.
+                </p>
+                <ul class="text-xs text-slate-500 space-y-1.5 pt-2 border-t border-slate-100">
+                    <li class="flex items-center space-x-1.5">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Real-time gate scan authentication</span>
+                    </li>
+                    <li class="flex items-center space-x-1.5">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Segregation rating & door-locked logs</span>
+                    </li>
+                </ul>
             </div>
 
-            <div class="relative bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center space-y-3">
-                <div class="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-800 font-black text-lg flex items-center justify-center">4</div>
-                <h4 class="font-bold text-slate-900 text-base">Governance Reports</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">Daily metrics instantly update for the Village Manager and Gram Panchayat leaders with ward rankings.</p>
+            <!-- 4. Household -->
+            <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                        <i data-lucide="home" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">Tier 4</span>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">4. Resident Household</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Empowered citizen portal. Allows residents to confirm today's pickup time, view historical segregation audits, maintain green streaks, and reprint gate cards.
+                </p>
+                <ul class="text-xs text-slate-500 space-y-1.5 pt-2 border-t border-slate-100">
+                    <li class="flex items-center space-x-1.5">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Zero cost to household forever</span>
+                    </li>
+                    <li class="flex items-center space-x-1.5">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Streak & daily pickup verification</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Interactive B2B Pricing Calculator Teaser -->
+<section class="py-20 sm:py-28 bg-white border-b border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 rounded-3xl p-8 sm:p-14 text-white shadow-2xl relative overflow-hidden">
+            <!-- Glow background -->
+            <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-6 space-y-5">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-500/30">
+                        <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
+                        <span>Transparent B2B Civic Pricing</span>
+                    </div>
+
+                    <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+                        Predictable Governance Pricing. Zero Cost to Citizens.
+                    </h2>
+
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Gram Panchayats, Municipal Councils, and RWAs pay a straightforward flat fee based on households managed. Direct households pay absolutely nothing.
+                    </p>
+
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center space-x-3 text-sm text-slate-200">
+                            <div class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">✓</div>
+                            <span><strong>₹5 / household / month</strong> for active managed gates</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm text-slate-200">
+                            <div class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">✓</div>
+                            <span><strong>₹500 / month minimum floor</strong> (covers up to 100 households)</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm text-slate-200">
+                            <div class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">✓</div>
+                            <span>Unlimited waste collectors, managers, and QR code prints</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <a href="{% url 'pricing' %}" class="inline-flex items-center space-x-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition-all">
+                            <span>Open Interactive Calculator</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Live Mini Calculator Card -->
+                <div class="lg:col-span-6 bg-slate-800/80 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-slate-700/80 space-y-6">
+                    <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Quick Estimate</span>
+                        <span class="text-xs font-bold text-emerald-400 bg-emerald-950/60 px-2.5 py-0.5 rounded-md border border-emerald-800/60">
+                            ₹5 / Household • Min ₹500
+                        </span>
+                    </div>
+
+                    <!-- Slider -->
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <label for="home-hh-slider" class="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                                Number of Households in Village / Ward
+                            </label>
+                            <span id="home-hh-display" class="text-lg font-black text-emerald-400 font-mono">
+                                450
+                            </span>
+                        </div>
+                        <input type="range" id="home-hh-slider" min="50" max="3000" step="25" value="450"
+                            class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        <div class="flex justify-between text-[11px] text-slate-400">
+                            <span>50 Households (Base ₹500)</span>
+                            <span>1,500</span>
+                            <span>3,000+</span>
+                        </div>
+                    </div>
+
+                    <!-- Computed Total Display -->
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-700 space-y-2">
+                        <div class="text-[11px] text-slate-400">Estimated Monthly Billing to Organization:</div>
+                        <div class="flex items-baseline space-x-2">
+                            <span class="text-3xl sm:text-4xl font-black text-white" id="home-price-display">₹2,250</span>
+                            <span class="text-xs text-slate-400 font-semibold">/ month</span>
+                        </div>
+                        <div class="text-[11px] text-emerald-400 font-medium pt-1 border-t border-slate-800">
+                            Approx. <span id="home-per-day-display">₹0.16</span> per household per day. 100% covered under rural sanitation grants.
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="{% url 'contact' %}" class="text-xs font-bold text-emerald-400 hover:text-emerald-300 underline underline-offset-4">
+                            Contact our municipal team for 5,000+ multi-panchayat deployments &rarr;
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Call to Action Banner -->
-<section class="py-16 bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 text-white">
-    <div class="max-w-5xl mx-auto px-4 text-center space-y-6">
-        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to access your Gram Panchayat?</h2>
-        <p class="text-emerald-100 text-base max-w-2xl mx-auto">
-            Authorized personnel (Super Admins, Village Managers, Waste Collectors) and Registered Residents can sign in below.
+<section class="py-16 sm:py-20 bg-emerald-600 text-white relative overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4 text-center space-y-6 relative z-10">
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight">
+            Ready to Digitize Your Gram Panchayat or Community?
+        </h2>
+        <p class="text-emerald-100 text-base max-w-2xl mx-auto font-normal">
+            Equip your sanitation staff with instant gate QR verification, achieve 100% daily ward coverage, and streamline state audit compliance.
         </p>
-        <div class="pt-2">
-            <a href="{% url 'login' %}" class="inline-flex items-center space-x-2 px-8 py-3.5 rounded-xl bg-white text-emerald-900 font-bold text-base hover:bg-emerald-50 shadow-lg transition-transform active:scale-95">
-                <i data-lucide="lock" class="w-5 h-5 text-emerald-700"></i>
-                <span>Sign In with Credentials</span>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <a href="{% url 'login' %}" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-3.5 rounded-xl bg-white text-slate-900 font-bold text-sm hover:bg-slate-50 shadow-lg transition-transform active:scale-95">
+                <i data-lucide="lock" class="w-4 h-4 text-emerald-600"></i>
+                <span>Enter Staff & Citizen Portal</span>
+            </a>
+            <a href="{% url 'contact' %}" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-3.5 rounded-xl bg-emerald-700/80 hover:bg-emerald-700 text-white font-bold text-sm border border-emerald-400/40 shadow-sm transition-all">
+                <i data-lucide="mail" class="w-4 h-4"></i>
+                <span>Inquire at contact@greenpath.com</span>
             </a>
         </div>
     </div>
 </section>
-{% endblock %}
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.getElementById('home-hh-slider');
+        const hhDisplay = document.getElementById('home-hh-display');
+        const priceDisplay = document.getElementById('home-price-display');
+        const perDayDisplay = document.getElementById('home-per-day-display');
+
+        function updateMiniCalc() {
+            if (!slider) return;
+            const hh = parseInt(slider.value, 10);
+            hhDisplay.textContent = hh.toLocaleString('en-IN');
+
+            // ₹5 per household with min total of 500
+            const total = Math.max(500, hh * 5);
+            priceDisplay.textContent = '₹' + total.toLocaleString('en-IN');
+
+            const perDay = (total / (hh * 30)).toFixed(2);
+            perDayDisplay.textContent = '₹' + perDay;
+        }
+
+        if (slider) {
+            slider.addEventListener('input', updateMiniCalc);
+            updateMiniCalc();
+        }
+    });
+</script>
+{% endblock %}

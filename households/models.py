@@ -15,7 +15,7 @@ class Household(models.Model):
         unique=True,
         db_index=True,
         blank=True,
-        help_text="Unique alphanumeric household identifier e.g. HH-VIL01-W01-0001"
+        help_text="Unique alphanumeric household identifier e.g. V001-H1, V002-H1"
     )
     village = models.ForeignKey(
         'governance.Village',
@@ -76,7 +76,6 @@ class Household(models.Model):
 
     def clean(self):
         super().clean()
-        # FR-21: The system shall prevent assigning a household to a ward outside the village
         v_id = getattr(self, 'village_id', None)
         w_id = getattr(self, 'ward_id', None)
         if v_id and w_id and self.ward:
@@ -103,16 +102,32 @@ class Household(models.Model):
     def generate_unique_uid(self):
         """
         Creates a structured, unique household UID:
-        HH-[VILLAGE_CODE]-[WARD_NUMBER]-[SEQ]
+        Modern format: [VILLAGE_CODE]-H[NUMBER] e.g. V001-H1, V001-H2, V002-H1
+        Legacy support: HH-[VILLAGE]-[WARD]-[SEQ] for VIL-* codes
         """
-        v_part = re.sub(r'[^A-Z0-9]', '', self.village.code.upper())[:6]
-        w_match = re.search(r'\d+', self.ward.ward_number)
-        w_part = f"W{int(w_match.group()):02d}" if w_match else "W01"
-        base_prefix = f"HH-{v_part}-{w_part}"
-
-        count = Household.objects.filter(village=self.village, ward=self.ward).count() + 1
-        candidate = f"{base_prefix}-{count:04d}"
-        while Household.objects.filter(uid=candidate).exists():
-            count += 1
+        v_code = self.village.code.upper()
+        if v_code.startswith("VIL-"):
+            v_part = re.sub(r'[^A-Z0-9]', '', v_code)[:6]
+            w_match = re.search(r'\d+', self.ward.ward_number) if self.ward else None
+            w_part = f"W{int(w_match.group()):02d}" if w_match else "W01"
+            base_prefix = f"HH-{v_part}-{w_part}"
+            count = Household.objects.filter(village=self.village, ward=self.ward).count() + 1
             candidate = f"{base_prefix}-{count:04d}"
-        return candidate
+            while Household.objects.filter(uid=candidate).exists():
+                count += 1
+                candidate = f"{base_prefix}-{count:04d}"
+            return candidate
+        else:
+            prefix = f"{v_code}-H"
+            existing = Household.objects.filter(village=self.village, uid__startswith=prefix).values_list('uid', flat=True)
+            numbers = []
+            for u in existing:
+                m = re.match(rf'^{re.escape(prefix)}(\d+)$', u, re.IGNORECASE)
+                if m:
+                    numbers.append(int(m.group(1)))
+            next_num = max(numbers, default=0) + 1
+            candidate = f"{prefix}{next_num}"
+            while Household.objects.filter(uid=candidate).exists():
+                next_num += 1
+                candidate = f"{prefix}{next_num}"
+            return candidate

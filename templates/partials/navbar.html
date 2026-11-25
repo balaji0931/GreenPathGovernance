@@ -1,103 +1,129 @@
-<header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 transition-colors">
+<header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 transition-all duration-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
+        <div class="flex items-center justify-between h-16 sm:h-20">
             <!-- Brand Logo -->
             <div class="flex items-center space-x-3">
-                <a href="{% url 'landing' %}" class="flex items-center space-x-2.5 group">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform">
-                        <i data-lucide="leaf" class="w-5 h-5"></i>
+                <a href="{% url 'landing' %}" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-600/25 group-hover:scale-105 group-hover:shadow-emerald-600/40 transition-all duration-300">
+                        <i data-lucide="leaf" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                     </div>
                     <div>
-                        <span class="text-xl font-bold tracking-tight text-slate-900 flex items-center">
+                        <div class="text-xl sm:text-2xl font-black tracking-tight text-slate-900 leading-none">
                             Green<span class="text-emerald-600">Path</span>
-                        </span>
-                        <span class="block text-[10px] uppercase tracking-wider font-semibold text-slate-400 -mt-1">
-                            Waste Governance
+                        </div>
+                        <span class="block text-[10px] uppercase tracking-wider font-extrabold text-slate-400 mt-1">
+                            Smart Waste Governance
                         </span>
                     </div>
                 </a>
             </div>
 
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-600">
-                <a href="{% url 'landing' %}" class="hover:text-emerald-600 transition-colors">Home</a>
-                <a href="{% url 'segregation_guide' %}" class="hover:text-emerald-600 transition-colors flex items-center space-x-1">
+            <!-- Public Navigation Links -->
+            <nav class="hidden lg:flex items-center space-x-1 font-medium text-sm text-slate-600">
+                <a href="{% url 'landing' %}" class="px-3.5 py-2 rounded-xl hover:text-emerald-600 hover:bg-slate-50 transition-all">
+                    Home
+                </a>
+                <a href="{% url 'product' %}" class="px-3.5 py-2 rounded-xl hover:text-emerald-600 hover:bg-slate-50 transition-all">
+                    Product
+                </a>
+                <a href="{% url 'about' %}" class="px-3.5 py-2 rounded-xl hover:text-emerald-600 hover:bg-slate-50 transition-all">
+                    About
+                </a>
+                <a href="{% url 'pricing' %}" class="px-3.5 py-2 rounded-xl hover:text-emerald-600 hover:bg-slate-50 transition-all flex items-center space-x-1.5">
+                    <span>Pricing</span>
+                    <span class="px-1.5 py-0.5 text-[10px] font-bold uppercase rounded-md bg-emerald-100 text-emerald-800">
+                        ₹5/HH
+                    </span>
+                </a>
+                <a href="{% url 'segregation_guide' %}" class="px-3.5 py-2 rounded-xl hover:text-emerald-600 hover:bg-slate-50 transition-all flex items-center space-x-1">
                     <i data-lucide="recycle" class="w-4 h-4 text-emerald-500"></i>
                     <span>Segregation Guide</span>
                 </a>
+                <a href="{% url 'contact' %}" class="px-3.5 py-2 rounded-xl hover:text-emerald-600 hover:bg-slate-50 transition-all">
+                    Contact Us
+                </a>
 
                 {% if user.is_authenticated %}
+                    <span class="h-5 w-px bg-slate-200 mx-2"></span>
+                    <!-- Role Shortcuts -->
                     {% if user.profile.role == 'SUPER_ADMIN' or user.is_superuser %}
-                        <a href="{% url 'superadmin_dashboard' %}" class="hover:text-emerald-600 transition-colors font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
-                            Governance HQ
+                        <a href="{% url 'superadmin_dashboard' %}" class="px-3.5 py-1.5 rounded-xl font-bold text-xs text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 transition-all flex items-center space-x-1.5">
+                            <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+                            <span>Governance HQ</span>
                         </a>
                     {% elif user.profile.role == 'VILLAGE_MANAGER' %}
-                        <a href="{% url 'manager_dashboard' %}" class="hover:text-emerald-600 transition-colors">
-                            Dashboard
+                        <a href="{% url 'manager_dashboard' %}" class="px-3 py-1.5 rounded-xl font-bold text-xs text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 transition-all">
+                            Manager Tower
                         </a>
-                        <a href="{% url 'household_list' %}" class="hover:text-emerald-600 transition-colors">
-                            Households
-                        </a>
-                        <a href="{% url 'collector_manage' %}" class="hover:text-emerald-600 transition-colors">
-                            Collectors
-                        </a>
-                        <a href="{% url 'manager_reports' %}" class="hover:text-emerald-600 transition-colors font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 flex items-center space-x-1">
+                        <a href="{% url 'manager_reports' %}" class="px-3 py-1.5 rounded-xl font-bold text-xs text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-all flex items-center space-x-1">
                             <i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i>
-                            <span>Analytics Report</span>
+                            <span>Reports</span>
                         </a>
                     {% elif user.profile.role == 'WASTE_COLLECTOR' %}
-                        <a href="{% url 'collector_doorstep' %}" class="hover:text-emerald-600 transition-colors font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
-                            Doorstep Scanner
+                        <a href="{% url 'collector_doorstep' %}" class="px-3.5 py-1.5 rounded-xl font-bold text-xs text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-all flex items-center space-x-1.5">
+                            <i data-lucide="scan" class="w-3.5 h-3.5"></i>
+                            <span>Doorstep Scanner</span>
                         </a>
                     {% elif user.profile.role == 'HOUSEHOLD' %}
-                        <a href="{% url 'household_dashboard' %}" class="hover:text-emerald-600 transition-colors font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
-                            My Household
+                        <a href="{% url 'household_dashboard' %}" class="px-3.5 py-1.5 rounded-xl font-bold text-xs text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-all flex items-center space-x-1.5">
+                            <i data-lucide="home" class="w-3.5 h-3.5"></i>
+                            <span>My Household</span>
                         </a>
                     {% endif %}
                 {% endif %}
             </nav>
 
-            <!-- User Status / Login Actions -->
-            <div class="hidden md:flex items-center space-x-3">
+            <!-- Right Side: User Menu / Login Action (STRICTLY NO SIGNUP) -->
+            <div class="hidden sm:flex items-center space-x-3">
                 {% if user.is_authenticated %}
-                    <div class="flex items-center space-x-3 bg-slate-50 border border-slate-200/80 rounded-xl px-3 py-1.5">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center">
+                    <div class="flex items-center space-x-3 bg-slate-50 border border-slate-200/90 rounded-2xl px-3.5 py-1.5">
+                        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white font-bold text-xs flex items-center justify-center shadow-xs">
                             {{ user.first_name|default:user.username|slice:":2"|upper }}
                         </div>
                         <div class="text-left text-xs leading-tight">
-                            <span class="block font-semibold text-slate-800">{{ user.get_full_name|default:user.username }}</span>
-                            <span class="block text-[10px] text-slate-500 font-medium">
+                            <span class="block font-bold text-slate-800 truncate max-w-[120px]">
+                                {{ user.get_full_name|default:user.username }}
+                            </span>
+                            <span class="block text-[10px] text-slate-500 font-semibold">
                                 {% if user.is_superuser or user.profile.role == 'SUPER_ADMIN' %}
-                                    <span class="text-purple-600 font-semibold">Super Admin</span>
+                                    <span class="text-purple-600">Super Admin</span>
                                 {% elif user.profile.role == 'VILLAGE_MANAGER' %}
-                                    <span class="text-blue-600 font-semibold">Manager ({{ user.profile.village.name|default:"Assigned" }})</span>
+                                    <span class="text-blue-600">Village Manager</span>
                                 {% elif user.profile.role == 'WASTE_COLLECTOR' %}
-                                    <span class="text-amber-600 font-semibold">Collector</span>
+                                    <span class="text-amber-600">Collector</span>
                                 {% elif user.profile.role == 'HOUSEHOLD' %}
-                                    <span class="text-emerald-600 font-semibold">Resident</span>
+                                    <span class="text-emerald-600">Resident</span>
                                 {% else %}
-                                    Authenticated
+                                    Authorized
                                 {% endif %}
                             </span>
                         </div>
                     </div>
+
                     <form method="POST" action="{% url 'logout' %}" class="inline">
                         {% csrf_token %}
-                        <button type="submit" title="Sign Out" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors border border-transparent hover:border-rose-200">
-                            <i data-lucide="log-out" class="w-5 h-5"></i>
+                        <button type="submit" title="Sign Out" class="p-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all border border-slate-200/80 hover:border-rose-200">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
                         </button>
                     </form>
                 {% else %}
-                    <a href="{% url 'login' %}" class="inline-flex items-center space-x-2 px-4 py-2 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-xl shadow-sm transition-all">
-                        <i data-lucide="lock" class="w-4 h-4"></i>
-                        <span>Staff & Resident Login</span>
+                    <!-- Single professional Login action only. No signup button -->
+                    <a href="{% url 'login' %}" class="inline-flex items-center space-x-2 px-5 py-2.5 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 active:scale-95 rounded-xl shadow-sm hover:shadow transition-all duration-150">
+                        <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i>
+                        <span>Portal Login</span>
                     </a>
                 {% endif %}
             </div>
 
-            <!-- Mobile Hamburger Button -->
-            <div class="flex md:hidden items-center">
-                <button type="button" id="mobile-menu-btn" class="p-2 text-slate-600 hover:text-slate-900 rounded-lg focus:outline-none">
+            <!-- Mobile Drawer Toggle Button -->
+            <div class="flex lg:hidden items-center space-x-2">
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'login' %}" class="inline-flex sm:hidden items-center space-x-1.5 px-3 py-1.5 text-xs font-bold text-white bg-slate-900 rounded-xl">
+                        <i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i>
+                        <span>Login</span>
+                    </a>
+                {% endif %}
+                <button type="button" id="mobile-menu-btn" class="p-2.5 text-slate-700 hover:text-slate-950 hover:bg-slate-100 rounded-xl focus:outline-none transition-colors" aria-label="Toggle Navigation">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
@@ -105,33 +131,80 @@
     </div>
 
     <!-- Mobile Drawer Menu -->
-    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3">
-        <a href="{% url 'landing' %}" class="block py-2 text-base font-medium text-slate-700 hover:text-emerald-600">Home</a>
-        <a href="{% url 'segregation_guide' %}" class="block py-2 text-base font-medium text-slate-700 hover:text-emerald-600">Segregation Guide</a>
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200/90 bg-white/95 backdrop-blur-md px-5 pt-4 pb-8 space-y-2">
+        <a href="{% url 'landing' %}" class="flex items-center space-x-2 py-2.5 px-3 rounded-xl text-sm font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+            <i data-lucide="home" class="w-4 h-4 text-emerald-600"></i>
+            <span>Home</span>
+        </a>
+        <a href="{% url 'product' %}" class="flex items-center space-x-2 py-2.5 px-3 rounded-xl text-sm font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+            <i data-lucide="cpu" class="w-4 h-4 text-emerald-600"></i>
+            <span>Product</span>
+        </a>
+        <a href="{% url 'about' %}" class="flex items-center space-x-2 py-2.5 px-3 rounded-xl text-sm font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+            <i data-lucide="users" class="w-4 h-4 text-emerald-600"></i>
+            <span>About Us</span>
+        </a>
+        <a href="{% url 'pricing' %}" class="flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="tag" class="w-4 h-4 text-emerald-600"></i>
+                <span>Pricing</span>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md">₹5 / HH</span>
+        </a>
+        <a href="{% url 'segregation_guide' %}" class="flex items-center space-x-2 py-2.5 px-3 rounded-xl text-sm font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+            <i data-lucide="recycle" class="w-4 h-4 text-emerald-600"></i>
+            <span>Waste Segregation Guide</span>
+        </a>
+        <a href="{% url 'contact' %}" class="flex items-center space-x-2 py-2.5 px-3 rounded-xl text-sm font-semibold text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
+            <i data-lucide="mail" class="w-4 h-4 text-emerald-600"></i>
+            <span>Contact Us</span>
+        </a>
+
         {% if user.is_authenticated %}
-            {% if user.profile.role == 'SUPER_ADMIN' or user.is_superuser %}
-                <a href="{% url 'superadmin_dashboard' %}" class="block py-2 text-base font-semibold text-purple-700">Governance HQ</a>
-            {% elif user.profile.role == 'VILLAGE_MANAGER' %}
-                <a href="{% url 'manager_dashboard' %}" class="block py-2 text-base font-semibold text-emerald-700">Dashboard</a>
-                <a href="{% url 'household_list' %}" class="block py-2 text-base font-medium text-slate-700">Household Register</a>
-                <a href="{% url 'collector_manage' %}" class="block py-2 text-base font-medium text-slate-700">Waste Collectors</a>
-                <a href="{% url 'manager_reports' %}" class="block py-2 text-base font-medium text-slate-700">Daily Analytics Report</a>
-            {% elif user.profile.role == 'WASTE_COLLECTOR' %}
-                <a href="{% url 'collector_doorstep' %}" class="block py-2 text-base font-semibold text-amber-700">Doorstep Scanner</a>
-            {% elif user.profile.role == 'HOUSEHOLD' %}
-                <a href="{% url 'household_dashboard' %}" class="block py-2 text-base font-semibold text-emerald-700">My Household</a>
-            {% endif %}
-            <div class="pt-3 border-t border-slate-100">
-                <div class="text-sm font-medium text-slate-500 mb-2">Signed in as <span class="font-bold text-slate-800">{{ user.username }}</span></div>
-                <form method="POST" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="w-full text-left py-2 text-base font-medium text-rose-600">Sign Out</button>
-                </form>
+            <div class="pt-4 border-t border-slate-200/80 space-y-2">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-400 px-3">
+                    Workspace Navigation
+                </div>
+                {% if user.profile.role == 'SUPER_ADMIN' or user.is_superuser %}
+                    <a href="{% url 'superadmin_dashboard' %}" class="block py-2 px-3 rounded-xl text-sm font-bold text-purple-700 bg-purple-50">
+                        Governance HQ
+                    </a>
+                {% elif user.profile.role == 'VILLAGE_MANAGER' %}
+                    <a href="{% url 'manager_dashboard' %}" class="block py-2 px-3 rounded-xl text-sm font-bold text-blue-700 bg-blue-50">
+                        Manager Dashboard
+                    </a>
+                    <a href="{% url 'household_list' %}" class="block py-2 px-3 rounded-xl text-sm font-medium text-slate-700">
+                        Household Register
+                    </a>
+                    <a href="{% url 'collector_manage' %}" class="block py-2 px-3 rounded-xl text-sm font-medium text-slate-700">
+                        Waste Collectors
+                    </a>
+                    <a href="{% url 'manager_reports' %}" class="block py-2 px-3 rounded-xl text-sm font-medium text-slate-700">
+                        Analytics Report
+                    </a>
+                {% elif user.profile.role == 'WASTE_COLLECTOR' %}
+                    <a href="{% url 'collector_doorstep' %}" class="block py-2 px-3 rounded-xl text-sm font-bold text-amber-800 bg-amber-50">
+                        Doorstep Scanner
+                    </a>
+                {% elif user.profile.role == 'HOUSEHOLD' %}
+                    <a href="{% url 'household_dashboard' %}" class="block py-2 px-3 rounded-xl text-sm font-bold text-emerald-800 bg-emerald-50">
+                        My Household Dashboard
+                    </a>
+                {% endif %}
+
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-between px-3">
+                    <span class="text-xs text-slate-500 font-medium">Signed in as <strong>{{ user.username }}</strong></span>
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="text-xs font-bold text-rose-600 hover:underline">Sign Out</button>
+                    </form>
+                </div>
             </div>
         {% else %}
-            <div class="pt-2">
-                <a href="{% url 'login' %}" class="block w-full text-center py-2.5 px-4 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl">
-                    Sign In
+            <div class="pt-4 border-t border-slate-200/80">
+                <a href="{% url 'login' %}" class="flex items-center justify-center space-x-2 w-full py-3 px-4 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl shadow-md">
+                    <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i>
+                    <span>Authorized Portal Login</span>
                 </a>
             </div>
         {% endif %}
@@ -149,4 +222,3 @@
         }
     });
 </script>
-

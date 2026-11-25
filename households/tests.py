@@ -190,3 +190,40 @@ class HouseholdsPhase3Tests(TestCase):
         self.assertTrue(data['success'])
         self.assertEqual(data['household']['uid'], self.hh1.uid)
         self.assertIn('vcode', data['household']['qr_payload'])
+
+    def test_auto_assigned_collector_and_household_ids(self):
+        """Verify collector auto-assigns V001-C1 and household auto-assigns V001-H1."""
+        v = Village.objects.create(code="V001", name="Shivaji GP")
+        ward = Ward.objects.create(village=v, ward_number="Ward 01")
+        mgr = User.objects.create_user(username="V001-M1", password="password123")
+        mgr.profile.role = RoleChoices.VILLAGE_MANAGER
+        mgr.profile.village = v
+        mgr.profile.save()
+
+        self.client.login(username="V001-M1", password="password123")
+
+        # 1. Collector creation without username -> auto-assigns V001-C1
+        res_col = self.client.post(reverse('collector_manage'), {
+            'first_name': 'Kishore',
+            'last_name': 'Shinde',
+            'phone_number': '9876500001',
+        })
+        self.assertEqual(res_col.status_code, 302)
+        col_user = User.objects.get(username="V001-C1")
+        self.assertEqual(col_user.profile.role, RoleChoices.WASTE_COLLECTOR)
+        self.assertEqual(col_user.profile.village, v)
+
+        # 2. Household registration without username -> auto-assigns V001-H1
+        res_hh = self.client.post(reverse('household_create'), {
+            'head_name': 'Ramesh Pawar',
+            'house_number': '101-A',
+            'ward': ward.id,
+            'street_address': 'Main Bazaar',
+            'phone_number': '9876500002',
+            'create_resident_account': True,
+        })
+        self.assertEqual(res_hh.status_code, 302)
+        hh = Household.objects.get(head_name='Ramesh Pawar')
+        self.assertEqual(hh.uid, "V001-H1")
+        self.assertIsNotNone(hh.resident_user)
+        self.assertEqual(hh.resident_user.username, "V001-H1")
